@@ -1,7 +1,7 @@
 package com.technicalchallenge.service;
 
 import com.technicalchallenge.model.ApplicationUser;
-import com.technicalchallenge.repository.UserRepository;
+import com.technicalchallenge.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,29 +12,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+public class ApplicationUserService {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationUserService.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private ApplicationUserRepository applicationUserRepository;
 
     public List<ApplicationUser> getAllUsers() {
         logger.info("Retrieving all users");
-        return userRepository.findAll();
+        return applicationUserRepository.findAll();
     }
 
     public Optional<ApplicationUser> getUserById(Long id) {
         logger.debug("Retrieving user by id: {}", id);
-        return userRepository.findById(id);
+        return applicationUserRepository.findById(id);
     }
 
     public ApplicationUser saveUser(ApplicationUser user) {
         logger.info("Saving user: {}", user);
-        return userRepository.save(user);
+        return applicationUserRepository.save(user);
     }
 
     public void deleteUser(Long id) {
         logger.warn("Deleting user with id: {}", id);
-        userRepository.deleteById(id);
+        applicationUserRepository.deleteById(id);
     }
 }

@@ -23,7 +23,7 @@ public class CounterpartyServiceTest {
         Counterparty counterparty = new Counterparty();
         counterparty.setId(1L);
         when(counterpartyRepository.findById(1L)).thenReturn(Optional.of(counterparty));
-        Optional<Counterparty> found = counterpartyService.findById(1L);
+        Optional<Counterparty> found = counterpartyService.getCounterpartyById(1L);
         assertTrue(found.isPresent());
         assertEquals(1L, found.get().getId());
     }

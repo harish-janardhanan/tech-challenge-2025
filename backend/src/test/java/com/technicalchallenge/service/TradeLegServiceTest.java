@@ -21,11 +21,11 @@ public class TradeLegServiceTest {
     @Test
     void testFindTradeLegById() {
         TradeLeg tradeLeg = new TradeLeg();
-        tradeLeg.setId(1L);
+        tradeLeg.setLegId(1L);
         when(tradeLegRepository.findById(1L)).thenReturn(Optional.of(tradeLeg));
-        Optional<TradeLeg> found = tradeLegService.findById(1L);
+        Optional<TradeLeg> found = tradeLegService.getTradeLegById(1L);
         assertTrue(found.isPresent());
-        assertEquals(1L, found.get().getId());
+        assertEquals(1L, found.get().getLegId());
     }
     // Add more tests for save, update, delete
 }
