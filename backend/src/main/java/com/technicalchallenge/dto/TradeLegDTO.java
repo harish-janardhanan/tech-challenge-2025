@@ -1,6 +1,7 @@
 package com.technicalchallenge.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
+@Data
 public class TradeLegDTO {
     private Long legId;
     private TradeDTO trade;
