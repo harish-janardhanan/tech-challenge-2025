@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/tradelegs")
+@RequestMapping("/api/tradeLegs")
 @Validated
 public class TradeLegController {
     private static final Logger logger = LoggerFactory.getLogger(TradeLegController.class);
