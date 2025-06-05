@@ -1,12 +1,47 @@
-# React + Vite
+# Tech Challenge 2025 – Frontend (React + Vite + Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the Tech Challenge 2025 project. It is built with React 19, Vite, Tailwind CSS, MobX, AG Grid, and React Query.
 
-Currently, two official plugins are available:
+## Prerequisites
+- Node.js 18 or higher
+- pnpm (recommended) or npm/yarn
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup & Run
 
-## Expanding the ESLint configuration
+1. **Install dependencies:**
+   ```sh
+   pnpm install
+   ```
+2. **Start the development server:**
+   ```sh
+   pnpm dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Build for production:**
+   ```sh
+   pnpm build
+   ```
+
+4. **Lint and test:**
+   ```sh
+   pnpm lint
+   pnpm test
+   ```
+
+## Project Structure
+- `src/` – React source code
+- `src/components/` – Reusable UI components
+- `src/pages/` – Page-level components
+- `src/stores/` – MobX stores
+- `src/utils/` – API and utility functions
+
+## API Integration
+- The frontend expects the backend to be running at `http://localhost:8080/api`.
+- Update `src/utils/api.ts` if your backend URL changes.
+
+## Notes
+- Uses Tailwind CSS for styling. All custom styles should use Tailwind utility classes.
+- Uses React Query for data fetching and caching.
+- Uses AG Grid for data tables.
+
