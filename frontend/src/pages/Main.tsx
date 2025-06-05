@@ -1,9 +1,9 @@
 import React from 'react';
+import Layout from '../components/Layout';
 import {useSearchParams} from "react-router-dom";
-import Layout from "../components/Layout";
 import {HomeContent} from "../components/HomeContent";
 
-const MiddleOffice = () => {
+const Main: React.FC = () => {
     const [searchParams] = useSearchParams();
     const view = searchParams.get('view') || 'default';
     return (
@@ -13,5 +13,4 @@ const MiddleOffice = () => {
     );
 };
 
-export default MiddleOffice;
-
+export default Main;

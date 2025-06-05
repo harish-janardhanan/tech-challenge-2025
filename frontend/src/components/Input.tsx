@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
   <div className="flex flex-col gap-1 w-full">
     <input
       placeholder={props.placeholder || label}
-      className={`border rounded outline-none focus:ring-2 text-black transition ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`border rounded outline-none focus:ring-2 shadow-2xl text-black transition ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...props}
     />
     {error && <span className="text-red-600 text-xs mt-1">{error}</span>}

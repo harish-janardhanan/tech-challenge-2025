@@ -18,16 +18,15 @@ const SignIn = () => {
     };
 
     return (
-        <div className="relative min-h-screen  w-fit flex items-center justify-center overflow-hidden">
-            <div className="relative z-10">
+        <div className="relative  w-full min-h-screen flex items-center justify-center justify-items-center bg-slate-50 ">
                 <div className="rounded-2xl border border-gray-300 shadow-2xl shadow-gray-300 bg-white p-8 gap-y-4 flex flex-col justify-center items-center">
                     <form className="flex flex-col gap-4 bg-white p-8 rounded-xl shadow-none" onSubmit={handleSignIn}>
-                        <img className="border flex justify-center allign-center shadow w-[200px] h-[200px]" src={avatar} alt="avatar" />
+                        <img className="rounded-2xl shadow-lg flex justify-center allign-center w-[200px] h-[200px]" src={avatar} alt="avatar" />
                         <Input
                             ref={emailRef}
-                            type="email"
-                            name="email"
-                            label="Email"
+                            type="userid"
+                            name="userid"
+                            label="User ID"
                             required
                             variant="primary"
                             size="md"
@@ -47,7 +46,6 @@ const SignIn = () => {
                         </Button>
                     </form>
                 </div>
-            </div>
         </div>
     );
 };

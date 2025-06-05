@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SupportAdmin from './SupportAdmin.tsx';
+import Support from './Support.tsx';
 import React from 'react';
 
-describe('SupportAdmin Page', () => {
+describe('Support Page', () => {
   it('renders the Support / Admin View heading', () => {
-    render(<SupportAdmin />);
+    render(<Support />);
     expect(screen.getByText(/Support \/ Admin View/i)).toBeInTheDocument();
   });
 });
