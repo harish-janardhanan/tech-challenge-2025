@@ -2,13 +2,14 @@ import React from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import logo from '../assets/trading-logo.svg'
 import Button from './Button';
+import userStore from "../stores/userStore";
 
 const navItems = [
-    {label: 'Home', aria: 'home', path: '/home',},
-    {label: 'Trading', aria: 'trade', path: '/trade'},
-    {label: 'Middle Office', aria: 'trades', path: '/middle-office'},
-    {label: 'Support Team', aria: 'support', path: '/support'},
-    {label: 'Administrator', aria: 'admin', path: '/admin'},
+    {label: 'Home', aria: 'home', path: '/home', profile: 'default'},
+    {label: 'Trading', aria: 'trade', path: '/trade' , profile: 'TRADER_SALES'},
+    {label: 'Middle Office', aria: 'trades', path: '/middle-office', profile: "MIDDLE_OFFICE"},
+    {label: 'Support Team', aria: 'support', path: '/support', profile: "SUPPORT"},
+    {label: 'Administrator', aria: 'admin', path: '/admin', profile: "ADMIN"},
 ];
 
 const Navbar = () => {
@@ -30,6 +31,7 @@ const Navbar = () => {
                 </div>
                 <div className="inline-flex rounded-xl shadow bg-white p-1 gap-2">
                     {navItems.map((item) => (
+                        userStore.authorization == item.profile &&
                         <Button
                             key={item.aria}
                             variant="primary"
@@ -42,7 +44,20 @@ const Navbar = () => {
                         </Button>
                     ))}
                 </div>
-
+                <div className="flex-1 flex justify-end pr-6">
+                    <Button
+                        variant="primary"
+                        size="sm"
+                        className="px-4 py-2 rounded-lg !text-black !bg-gray-200 hover:!bg-gray-500 hover:!text-white font-semibold transition cursor-pointer shadow-none"
+                        aria-label="signout"
+                        onClick={() => {
+                            localStorage.setItem('authenticated', 'false');
+                            navigate('/signin');
+                        }}
+                    >
+                        Sign Out
+                    </Button>
+                </div>
             </nav>
         </>
     );

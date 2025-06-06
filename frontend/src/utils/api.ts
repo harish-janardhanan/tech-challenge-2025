@@ -31,5 +31,15 @@ export const createUser = (user) => api.post('/users', user);
 // PUT /users/:id
 export const updateUser = (id, user) => api.put(`/users/${id}`, user);
 // Add more API methods as needed for other entities
+export const authenticate = (user: string, pass: string) => {
+  return api.post(`/login/${user}`, null, {
+    params: {
+      Authorization: pass
+    }
+  });
+}
 
+export const getUserByLogin = (login: string) => {
+    return api.get(`/users/loginId/${login}`);
+}
 export default api;

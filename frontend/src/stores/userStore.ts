@@ -1,32 +1,51 @@
 import { makeAutoObservable } from 'mobx';
+import {ApplicationUser} from "../utils/ApplicationUser";
+import error from "eslint-plugin-react/lib/util/error";
 
 class UserStore {
-  user = null;
-  isLoading = false;
-  error = null;
-  authenticated = false;
+  private _user: ApplicationUser | null = null;
+  private _authorization:string| undefined = undefined;
+  private _isLoading = false;
+  private _error:string | null = null;
+
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setUser(user) {
-    this.user = user;
-    this.authenticated = !!user;
+
+  get user(): ApplicationUser | null {
+    return this._user;
   }
 
-  setLoading(isLoading) {
-    this.isLoading = isLoading;
+  set user(value: ApplicationUser | null) {
+    this._user = value;
   }
 
-  setError(error) {
-    this.error = error;
+  get authorization(): string | undefined {
+    return this._authorization;
   }
 
-  logout() {
-    this.user = null;
-    this.authenticated = false;
+  set authorization(value: string | undefined) {
+    this._authorization = value;
   }
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  set isLoading(value: boolean) {
+    this._isLoading = value;
+  }
+
+  get error(): string | null {
+    return this._error;
+  }
+
+  set error(value: string | null) {
+    this._error = value;
+  }
+
 }
 
 const userStore = new UserStore();

@@ -2,6 +2,7 @@ package com.technicalchallenge.service;
 
 import com.technicalchallenge.model.ApplicationUser;
 import com.technicalchallenge.repository.ApplicationUserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ApplicationUserService {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationUserService.class);
-
-    @Autowired
-    private ApplicationUserRepository applicationUserRepository;
+    private final ApplicationUserRepository applicationUserRepository;
 
     public boolean validateCredentials(String loginId, String password) {
         logger.debug("Validating credentials for user: {}", loginId);
         Optional<ApplicationUser> user = applicationUserRepository.findByLoginId(loginId);
-        if (user.isPresent()) {
-            return user.get().getPassword().equals(password);
-        }
-        return false;
+        return user.map(applicationUser -> applicationUser.getPassword().equals(password)).orElse(false);
     }
 
     public List<ApplicationUser> getAllUsers() {

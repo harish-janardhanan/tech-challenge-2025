@@ -57,9 +57,8 @@ export const SingleUserModal: React.FC<UserDetailModalProps> = observer((props) 
                         }}/>
                         {isEditMode? null: <InputRow label={"Password"} inputProps={{
                             type: "password",
-                            value: isEditMode ? '' : (user.password || ''),
-                            onChange: e => handleFieldChange("password", e.target.value),
-                            placeholder: isEditMode ? "(hidden)" : ""
+                            value: user.password,
+                            onChange: e => handleFieldChange("password", e.target.value)
                         }}/> }
 
                         <InputRow label={"Active"} inputProps={{
