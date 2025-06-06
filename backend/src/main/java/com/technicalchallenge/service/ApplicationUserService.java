@@ -18,6 +18,15 @@ public class ApplicationUserService {
     @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
+    public boolean validateCredentials(String loginId, String password) {
+        logger.debug("Validating credentials for user: {}", loginId);
+        Optional<ApplicationUser> user = applicationUserRepository.findByLoginId(loginId);
+        if (user.isPresent()) {
+            return user.get().getPassword().equals(password);
+        }
+        return false;
+    }
+
     public List<ApplicationUser> getAllUsers() {
         logger.info("Retrieving all users");
         return applicationUserRepository.findAll();

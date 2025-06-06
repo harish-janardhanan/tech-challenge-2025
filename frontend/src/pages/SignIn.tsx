@@ -18,8 +18,9 @@ const SignIn = () => {
     };
 
     return (
-        <div className="relative  w-full min-h-screen flex items-center justify-center justify-items-center bg-slate-50 ">
-                <div className="rounded-2xl border border-gray-300 shadow-2xl shadow-gray-300 bg-white p-8 gap-y-4 flex flex-col justify-center items-center">
+        <div className="relative  w-full min-h-screen flex flex-col items-center justify-center justify-items-center bg-slate-50 ">
+            <div className={"mb-10 font-semibold text-2xl"}> Welcome to Trading Platform, please use the below form to Login</div>
+            <div className="rounded-2xl border border-gray-300 shadow-2xl shadow-gray-300 bg-white p-8 gap-y-4 flex flex-col justify-center items-center">
                     <form className="flex flex-col gap-4 bg-white p-8 rounded-xl shadow-none" onSubmit={handleSignIn}>
                         <img className="rounded-2xl shadow-lg flex justify-center allign-center w-[200px] h-[200px]" src={avatar} alt="avatar" />
                         <Input

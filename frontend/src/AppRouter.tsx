@@ -8,17 +8,18 @@ import TraderSales from "./pages/TraderSales";
 import MiddleOffice from "./pages/MiddleOffice";
 import Support from "./pages/Support";
 import Admin from "./pages/Admin";
+import PrivateRoute from "./PrivateRoute";
 
 const AppRouter = observer(() => (
 
     <BrowserRouter>
         <Routes>
             <Route path="/signin" element={<SignIn/>}/>
-            <Route path="/home" element={<Main/>}/>
-            <Route path="/trade" element={<TraderSales/>}/>
-            <Route path="/middle-office" element={<MiddleOffice/>}/>
-            <Route path="/support" element={<Support/>}/>
-            <Route path="/admin" element={<Admin/>}/>
+            <Route path="/home" element={<PrivateRoute><Main/></PrivateRoute>}/>
+            <Route path="/trade" element={<PrivateRoute> <TraderSales/> </PrivateRoute>}/>
+            <Route path="/middle-office" element={<PrivateRoute><MiddleOffice/></PrivateRoute>}/>
+            <Route path="/support" element={<PrivateRoute><Support/></PrivateRoute>}/>
+            <Route path="/admin" element={<PrivateRoute><Admin/></PrivateRoute>}/>
             <Route
                 path="*"
                 element={
