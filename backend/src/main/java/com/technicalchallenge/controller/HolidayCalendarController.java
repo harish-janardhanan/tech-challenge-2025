@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.HolidayCalendarDTO;
+import com.technicalchallenge.mapper.HolidayCalendarMapper;
 import com.technicalchallenge.model.HolidayCalendar;
 import com.technicalchallenge.service.HolidayCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/holiday-calendars")
+@RequestMapping("/api/holidayCalendars")
 public class HolidayCalendarController {
     private static final Logger logger = LoggerFactory.getLogger(HolidayCalendarController.class);
 
     @Autowired
     private HolidayCalendarService holidayCalendarService;
 
+    @Autowired
+    private HolidayCalendarMapper holidayCalendarMapper;
+
     @GetMapping
-    public List<HolidayCalendar> getAll() {
+    public List<HolidayCalendarDTO> getAll() {
         logger.info("Fetching all holiday calendars");
-        return holidayCalendarService.findAll();
+        return holidayCalendarService.findAll().stream()
+            .map(holidayCalendarMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HolidayCalendar> getById(@PathVariable Long id) {
+    public ResponseEntity<HolidayCalendarDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching holiday calendar by id: {}", id);
         return holidayCalendarService.findById(id)
+                .map(holidayCalendarMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public HolidayCalendar create(@RequestBody HolidayCalendar holidayCalendar) {
-        logger.info("Creating new holiday calendar: {}", holidayCalendar);
-        return holidayCalendarService.save(holidayCalendar);
+    public HolidayCalendarDTO create(@RequestBody HolidayCalendarDTO holidayCalendarDTO) {
+        logger.info("Creating new holiday calendar: {}", holidayCalendarDTO);
+        HolidayCalendar entity = holidayCalendarMapper.toEntity(holidayCalendarDTO);
+        return holidayCalendarMapper.toDto(holidayCalendarService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HolidayCalendar> update(@PathVariable Long id, @RequestBody HolidayCalendar holidayCalendar) {
+    public ResponseEntity<HolidayCalendarDTO> update(@PathVariable Long id, @RequestBody HolidayCalendarDTO holidayCalendarDTO) {
         return holidayCalendarService.findById(id)
                 .map(existing -> {
-                    holidayCalendar.setId(id);
-                    return ResponseEntity.ok(holidayCalendarService.save(holidayCalendar));
+                    HolidayCalendar entity = holidayCalendarMapper.toEntity(holidayCalendarDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(holidayCalendarMapper.toDto(holidayCalendarService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

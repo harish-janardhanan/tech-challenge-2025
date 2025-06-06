@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.PayRecDTO;
+import com.technicalchallenge.mapper.PayRecMapper;
 import com.technicalchallenge.model.PayRec;
 import com.technicalchallenge.service.PayRecService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/payrecs")
+@RequestMapping("/api/payRecs")
 public class PayRecController {
     private static final Logger logger = LoggerFactory.getLogger(PayRecController.class);
 
     @Autowired
     private PayRecService payRecService;
 
+    @Autowired
+    private PayRecMapper payRecMapper;
+
     @GetMapping
-    public List<PayRec> getAll() {
+    public List<PayRecDTO> getAll() {
         logger.info("Fetching all pay recs");
-        return payRecService.findAll();
+        return payRecService.findAll().stream()
+            .map(payRecMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PayRec> getById(@PathVariable Long id) {
+    public ResponseEntity<PayRecDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching pay rec by id: {}", id);
         return payRecService.findById(id)
+                .map(payRecMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public PayRec create(@RequestBody PayRec payRec) {
-        logger.info("Creating new pay rec: {}", payRec);
-        return payRecService.save(payRec);
+    public PayRecDTO create(@RequestBody PayRecDTO payRecDTO) {
+        logger.info("Creating new pay rec: {}", payRecDTO);
+        PayRec entity = payRecMapper.toEntity(payRecDTO);
+        return payRecMapper.toDto(payRecService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PayRec> update(@PathVariable Long id, @RequestBody PayRec payRec) {
+    public ResponseEntity<PayRecDTO> update(@PathVariable Long id, @RequestBody PayRecDTO payRecDTO) {
         return payRecService.findById(id)
                 .map(existing -> {
-                    payRec.setId(id);
-                    return ResponseEntity.ok(payRecService.save(payRec));
+                    PayRec entity = payRecMapper.toEntity(payRecDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(payRecMapper.toDto(payRecService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

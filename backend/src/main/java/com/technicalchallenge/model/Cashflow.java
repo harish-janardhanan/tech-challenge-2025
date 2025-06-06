@@ -15,7 +15,7 @@ public class Cashflow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal value;
+    private BigDecimal paymentValue;
     private LocalDate valueDate;
     private Double rate;
 

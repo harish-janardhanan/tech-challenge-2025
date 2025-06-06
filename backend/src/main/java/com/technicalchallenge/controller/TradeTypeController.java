@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.TradeTypeDTO;
+import com.technicalchallenge.mapper.TradeTypeMapper;
 import com.technicalchallenge.model.TradeType;
 import com.technicalchallenge.service.TradeTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/trade-types")
+@RequestMapping("/api/tradeTypes")
 public class TradeTypeController {
     private static final Logger logger = LoggerFactory.getLogger(TradeTypeController.class);
 
     @Autowired
     private TradeTypeService tradeTypeService;
 
+    @Autowired
+    private TradeTypeMapper tradeTypeMapper;
+
     @GetMapping
-    public List<TradeType> getAll() {
+    public List<TradeTypeDTO> getAll() {
         logger.info("Fetching all trade types");
-        return tradeTypeService.findAll();
+        return tradeTypeService.findAll().stream()
+            .map(tradeTypeMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TradeType> getById(@PathVariable Long id) {
+    public ResponseEntity<TradeTypeDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching trade type by id: {}", id);
         return tradeTypeService.findById(id)
+                .map(tradeTypeMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public TradeType create(@RequestBody TradeType tradeType) {
-        logger.info("Creating new trade type: {}", tradeType);
-        return tradeTypeService.save(tradeType);
+    public TradeTypeDTO create(@RequestBody TradeTypeDTO tradeTypeDTO) {
+        logger.info("Creating new trade type: {}", tradeTypeDTO);
+        TradeType entity = tradeTypeMapper.toEntity(tradeTypeDTO);
+        return tradeTypeMapper.toDto(tradeTypeService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TradeType> update(@PathVariable Long id, @RequestBody TradeType tradeType) {
+    public ResponseEntity<TradeTypeDTO> update(@PathVariable Long id, @RequestBody TradeTypeDTO tradeTypeDTO) {
         return tradeTypeService.findById(id)
                 .map(existing -> {
-                    tradeType.setId(id);
-                    return ResponseEntity.ok(tradeTypeService.save(tradeType));
+                    TradeType entity = tradeTypeMapper.toEntity(tradeTypeDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(tradeTypeMapper.toDto(tradeTypeService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

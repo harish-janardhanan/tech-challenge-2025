@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.UserDTO;
+import com.technicalchallenge.mapper.ApplicationUserMapper;
 import com.technicalchallenge.model.ApplicationUser;
 import com.technicalchallenge.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +25,42 @@ public class UserController {
     @Autowired
     private ApplicationUserService applicationUserService;
 
+    @Autowired
+    private ApplicationUserMapper applicationUserMapper;
+
     @GetMapping
-    public List<ApplicationUser> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         logger.info("Fetching all users");
-        return applicationUserService.getAllUsers();
+        return applicationUserService.getAllUsers().stream()
+            .map(applicationUserMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationUser> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         logger.debug("Fetching user by id: {}", id);
-        Optional<ApplicationUser> user = applicationUserService.getUserById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return applicationUserService.getUserById(id)
+            .map(applicationUserMapper::toDto)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody ApplicationUser user) {
-        logger.info("Creating new user: {}", user);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDto) {
+        logger.info("Creating new user: {}", userDto);
+        ApplicationUser user = applicationUserMapper.toEntity(userDto);
         ApplicationUser savedUser = applicationUserService.saveUser(user);
-        return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);
+        UserDTO savedUserDto = applicationUserMapper.toDto(savedUser);
+        return ResponseEntity.created(URI.create("/api/users/" + savedUserDto.getId())).body(savedUserDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable(name = "id") Long id, @Valid @RequestBody UserDTO userDto) {
+        logger.info("Updating user with id: {}", id);
+        ApplicationUser user = applicationUserMapper.toEntity(userDto);
+        ApplicationUser updatedUser = applicationUserService.updateUser(id, user);
+        UserDTO updatedUserDto = applicationUserMapper.toDto(updatedUser);
+        return ResponseEntity.ok(updatedUserDto);
     }
 
     @DeleteMapping("/{id}")

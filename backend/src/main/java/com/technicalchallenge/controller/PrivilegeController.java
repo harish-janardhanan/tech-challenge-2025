@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.PrivilegeDTO;
+import com.technicalchallenge.mapper.PrivilegeMapper;
 import com.technicalchallenge.model.Privilege;
 import com.technicalchallenge.service.PrivilegeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +25,31 @@ public class PrivilegeController {
     @Autowired
     private PrivilegeService privilegeService;
 
+    @Autowired
+    private PrivilegeMapper privilegeMapper;
+
     @GetMapping
-    public List<Privilege> getAllPrivileges() {
+    public List<PrivilegeDTO> getAllPrivileges() {
         logger.info("Fetching all privileges");
-        return privilegeService.getAllPrivileges();
+        return privilegeService.getAllPrivileges().stream()
+            .map(privilegeMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Privilege> getPrivilegeById(@PathVariable Long id) {
+    public ResponseEntity<PrivilegeDTO> getPrivilegeById(@PathVariable Long id) {
         logger.debug("Fetching privilege by id: {}", id);
         Optional<Privilege> privilege = privilegeService.getPrivilegeById(id);
-        return privilege.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return privilege.map(privilegeMapper::toDto)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> createPrivilege(@Valid @RequestBody Privilege privilege) {
-        logger.info("Creating new privilege: {}", privilege);
-        Privilege savedPrivilege = privilegeService.savePrivilege(privilege);
-        return ResponseEntity.created(URI.create("/api/privileges/" + savedPrivilege.getId())).body(savedPrivilege);
+    public ResponseEntity<PrivilegeDTO> createPrivilege(@Valid @RequestBody PrivilegeDTO privilegeDTO) {
+        logger.info("Creating new privilege: {}", privilegeDTO);
+        Privilege savedPrivilege = privilegeService.savePrivilege(privilegeMapper.toEntity(privilegeDTO));
+        return ResponseEntity.created(URI.create("/api/privileges/" + savedPrivilege.getId())).body(privilegeMapper.toDto(savedPrivilege));
     }
 
     @DeleteMapping("/{id}")

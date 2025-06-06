@@ -48,7 +48,7 @@ public class CashflowController {
     public ResponseEntity<?> createCashflow(@Valid @RequestBody CashflowDTO cashflowDTO) {
         logger.info("Creating new cashflow: {}", cashflowDTO);
         // Validation: value > 0, valueDate not null
-        if (cashflowDTO.getValue() == null || cashflowDTO.getValue().signum() <= 0) {
+        if (cashflowDTO.getPaymentValue() == null || cashflowDTO.getPaymentValue().signum() <= 0) {
             return ResponseEntity.badRequest().body("Cashflow value must be positive");
         }
         if (cashflowDTO.getValueDate() == null) {

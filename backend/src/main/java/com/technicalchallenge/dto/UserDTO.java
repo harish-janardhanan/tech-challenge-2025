@@ -2,14 +2,12 @@ package com.technicalchallenge.dto;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserDTO {
     private Long id;
@@ -19,4 +17,5 @@ public class UserDTO {
     private boolean active;
     private int version;
     private LocalDateTime lastModifiedTimestamp;
+    private String userProfile;
 }

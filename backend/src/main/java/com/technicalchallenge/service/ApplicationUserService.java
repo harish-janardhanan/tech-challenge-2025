@@ -37,4 +37,21 @@ public class ApplicationUserService {
         logger.warn("Deleting user with id: {}", id);
         applicationUserRepository.deleteById(id);
     }
+
+    public ApplicationUser updateUser(Long id, ApplicationUser user) {
+        logger.info("Updating user with id: {}", id);
+        ApplicationUser existingUser = applicationUserRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        // Update fields
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setLoginId(user.getLoginId());
+        existingUser.setActive(user.isActive());
+        existingUser.setUserProfile(user.getUserProfile());
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existingUser.setPassword(user.getPassword());
+        }
+        // version and lastModifiedTimestamp handled by entity listeners
+        return applicationUserRepository.save(existingUser);
+    }
 }

@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.CurrencyDTO;
+import com.technicalchallenge.mapper.CurrencyMapper;
 import com.technicalchallenge.model.Currency;
 import com.technicalchallenge.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +21,40 @@ public class CurrencyController {
     @Autowired
     private CurrencyService currencyService;
 
+    @Autowired
+    private CurrencyMapper currencyMapper;
+
     @GetMapping
-    public List<Currency> getAll() {
+    public List<CurrencyDTO> getAll() {
         logger.info("Fetching all currencies");
-        return currencyService.findAll();
+        return currencyService.findAll().stream()
+            .map(currencyMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Currency> getById(@PathVariable Long id) {
+    public ResponseEntity<CurrencyDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching currency by id: {}", id);
         return currencyService.findById(id)
+                .map(currencyMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Currency create(@RequestBody Currency currency) {
-        logger.info("Creating new currency: {}", currency);
-        return currencyService.save(currency);
+    public CurrencyDTO create(@RequestBody CurrencyDTO currencyDTO) {
+        logger.info("Creating new currency: {}", currencyDTO);
+        Currency entity = currencyMapper.toEntity(currencyDTO);
+        return currencyMapper.toDto(currencyService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Currency> update(@PathVariable Long id, @RequestBody Currency currency) {
+    public ResponseEntity<CurrencyDTO> update(@PathVariable Long id, @RequestBody CurrencyDTO currencyDTO) {
         return currencyService.findById(id)
                 .map(existing -> {
-                    currency.setId(id);
-                    return ResponseEntity.ok(currencyService.save(currency));
+                    Currency entity = currencyMapper.toEntity(currencyDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(currencyMapper.toDto(currencyService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

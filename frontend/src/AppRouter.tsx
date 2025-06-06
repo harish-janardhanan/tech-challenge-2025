@@ -10,6 +10,7 @@ import Support from "./pages/Support";
 import Admin from "./pages/Admin";
 
 const AppRouter = observer(() => (
+
     <BrowserRouter>
         <Routes>
             <Route path="/signin" element={<SignIn/>}/>

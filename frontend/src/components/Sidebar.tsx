@@ -6,7 +6,7 @@ const navItems = [
     {label: 'My Trade Blotter', aria: 'trade-blotter', parent: 'trade', param: 'blotter'},
     {label: 'New Trade', aria: 'new-trade', parent: 'trade', param: 'new-trade'},
     {label: 'Search Trade', aria: 'search-trade', parent: 'trade', param: 'search-trade'},
-    {label: 'User List', aria: 'user-list', parent: 'admin', param: 'user-list'},
+    {label: 'User Admin', aria: 'user-list', parent: 'admin', param: 'user-list'},
 ];
 
 const Sidebar = () => {

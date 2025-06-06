@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class CashflowDTO {
     private Long id;
     private TradeLegDTO leg;
-    private BigDecimal value;
+    private BigDecimal paymentValue;
     private LocalDate valueDate;
     private String payRec;
     private String paymentType;

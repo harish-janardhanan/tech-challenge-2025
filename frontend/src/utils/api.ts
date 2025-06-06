@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://localhost:8080/api', // Adjust baseURL as needed
+  baseURL: 'http://localhost:8080/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -10,7 +10,6 @@ const api = axios.create({
 
 // Example: GET /trades
 export const fetchTrades = () => api.get('/trades');
-
 // Example: POST /trades
 export const createTrade = (trade) => api.post('/trades', trade);
 
@@ -25,11 +24,12 @@ export const deleteTrade = (id) => api.delete(`/trades/${id}`);
 
 export const fetchAllUsers = async () => {
   console.log("Fetching all users from the API");
-  const response = await api.get('/users');
-  return response.data;
+  return await api.get('/users').then((res) => {return res});
 };
+// POST /users
+export const createUser = (user) => api.post('/users', user);
+// PUT /users/:id
+export const updateUser = (id, user) => api.put(`/users/${id}`, user);
 // Add more API methods as needed for other entities
 
 export default api;
-
-

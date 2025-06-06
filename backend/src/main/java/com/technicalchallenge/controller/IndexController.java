@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.IndexDTO;
+import com.technicalchallenge.mapper.IndexMapper;
 import com.technicalchallenge.model.Index;
 import com.technicalchallenge.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +21,40 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
+    @Autowired
+    private IndexMapper indexMapper;
+
     @GetMapping
-    public List<Index> getAll() {
+    public List<IndexDTO> getAll() {
         logger.info("Fetching all indexes");
-        return indexService.findAll();
+        return indexService.findAll().stream()
+            .map(indexMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Index> getById(@PathVariable Long id) {
+    public ResponseEntity<IndexDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching index by id: {}", id);
         return indexService.findById(id)
+                .map(indexMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> createIndex(@RequestBody Index index) {
-        logger.info("Creating new index: {}", index);
-        return ResponseEntity.ok(indexService.save(index));
+    public ResponseEntity<IndexDTO> createIndex(@RequestBody IndexDTO indexDTO) {
+        logger.info("Creating new index: {}", indexDTO);
+        Index saved = indexService.save(indexMapper.toEntity(indexDTO));
+        return ResponseEntity.ok(indexMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Index> update(@PathVariable Long id, @RequestBody Index index) {
+    public ResponseEntity<IndexDTO> update(@PathVariable Long id, @RequestBody IndexDTO indexDTO) {
         return indexService.findById(id)
                 .map(existing -> {
-                    index.setId(id);
-                    return ResponseEntity.ok(indexService.save(index));
+                    Index entity = indexMapper.toEntity(indexDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(indexMapper.toDto(indexService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

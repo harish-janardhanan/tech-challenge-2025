@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.TradeStatusDTO;
+import com.technicalchallenge.mapper.TradeStatusMapper;
 import com.technicalchallenge.model.TradeStatus;
 import com.technicalchallenge.service.TradeStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/trade-statuses")
+@RequestMapping("/api/tradeStatus")
 public class TradeStatusController {
     private static final Logger logger = LoggerFactory.getLogger(TradeStatusController.class);
 
     @Autowired
     private TradeStatusService tradeStatusService;
 
+    @Autowired
+    private TradeStatusMapper tradeStatusMapper;
+
     @GetMapping
-    public List<TradeStatus> getAll() {
+    public List<TradeStatusDTO> getAll() {
         logger.info("Fetching all trade statuses");
-        return tradeStatusService.findAll();
+        return tradeStatusService.findAll().stream()
+            .map(tradeStatusMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TradeStatus> getById(@PathVariable Long id) {
+    public ResponseEntity<TradeStatusDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching trade status by id: {}", id);
         return tradeStatusService.findById(id)
+                .map(tradeStatusMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public TradeStatus create(@RequestBody TradeStatus tradeStatus) {
-        logger.info("Creating new trade status: {}", tradeStatus);
-        return tradeStatusService.save(tradeStatus);
+    public TradeStatusDTO create(@RequestBody TradeStatusDTO tradeStatusDTO) {
+        logger.info("Creating new trade status: {}", tradeStatusDTO);
+        TradeStatus entity = tradeStatusMapper.toEntity(tradeStatusDTO);
+        return tradeStatusMapper.toDto(tradeStatusService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TradeStatus> update(@PathVariable Long id, @RequestBody TradeStatus tradeStatus) {
+    public ResponseEntity<TradeStatusDTO> update(@PathVariable Long id, @RequestBody TradeStatusDTO tradeStatusDTO) {
         return tradeStatusService.findById(id)
                 .map(existing -> {
-                    tradeStatus.setId(id);
-                    return ResponseEntity.ok(tradeStatusService.save(tradeStatus));
+                    TradeStatus entity = tradeStatusMapper.toEntity(tradeStatusDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(tradeStatusMapper.toDto(tradeStatusService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

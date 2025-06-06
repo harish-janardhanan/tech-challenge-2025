@@ -40,7 +40,7 @@ public class CashflowService {
     public Cashflow saveCashflow(Cashflow cashflow) {
         logger.info("Saving cashflow: {}", cashflow);
         // Business logic: value must be positive, valueDate required (enforced in controller)
-        if (cashflow.getValue() == null || cashflow.getValue().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+        if (cashflow.getPaymentValue() == null || cashflow.getPaymentValue().compareTo(java.math.BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Cashflow value must be greater than 0");
         }
         if (cashflow.getValueDate() == null) {

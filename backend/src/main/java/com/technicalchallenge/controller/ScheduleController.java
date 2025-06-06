@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.ScheduleDTO;
+import com.technicalchallenge.mapper.ScheduleMapper;
 import com.technicalchallenge.model.Schedule;
 import com.technicalchallenge.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +21,40 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
+    @Autowired
+    private ScheduleMapper scheduleMapper;
+
     @GetMapping
-    public List<Schedule> getAll() {
+    public List<ScheduleDTO> getAll() {
         logger.info("Fetching all schedules");
-        return scheduleService.findAll();
+        return scheduleService.findAll().stream()
+            .map(scheduleMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> getById(@PathVariable Long id) {
+    public ResponseEntity<ScheduleDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching schedule by id: {}", id);
         return scheduleService.findById(id)
+                .map(scheduleMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Schedule create(@RequestBody Schedule schedule) {
-        logger.info("Creating new schedule: {}", schedule);
-        return scheduleService.save(schedule);
+    public ScheduleDTO create(@RequestBody ScheduleDTO scheduleDTO) {
+        logger.info("Creating new schedule: {}", scheduleDTO);
+        Schedule entity = scheduleMapper.toEntity(scheduleDTO);
+        return scheduleMapper.toDto(scheduleService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Schedule> update(@PathVariable Long id, @RequestBody Schedule schedule) {
+    public ResponseEntity<ScheduleDTO> update(@PathVariable Long id, @RequestBody ScheduleDTO scheduleDTO) {
         return scheduleService.findById(id)
                 .map(existing -> {
-                    schedule.setId(id);
-                    return ResponseEntity.ok(scheduleService.save(schedule));
+                    Schedule entity = scheduleMapper.toEntity(scheduleDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(scheduleMapper.toDto(scheduleService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

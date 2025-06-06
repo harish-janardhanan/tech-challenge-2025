@@ -23,8 +23,6 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="w-full flex justify-center mb-2">
-            </div>
             <nav className="bg-white w-full shadow-lg mx-auto py-3 flex items-center rounded-2xl">
                 <div className={"justify-start gap-6 flex w-1/6"}>
                     <img src={logo} alt={"logo"} className={"ml-2 w-8 h-8"}/>

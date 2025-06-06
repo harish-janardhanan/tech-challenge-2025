@@ -1,5 +1,7 @@
 package com.technicalchallenge.controller;
 
+import com.technicalchallenge.dto.LegTypeDTO;
+import com.technicalchallenge.mapper.LegTypeMapper;
 import com.technicalchallenge.model.LegType;
 import com.technicalchallenge.service.LegTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/leg-types")
+@RequestMapping("/api/legTypes")
 public class LegTypeController {
     private static final Logger logger = LoggerFactory.getLogger(LegTypeController.class);
 
     @Autowired
     private LegTypeService legTypeService;
 
+    @Autowired
+    private LegTypeMapper legTypeMapper;
+
     @GetMapping
-    public List<LegType> getAll() {
+    public List<LegTypeDTO> getAll() {
         logger.info("Fetching all leg types");
-        return legTypeService.findAll();
+        return legTypeService.findAll().stream()
+            .map(legTypeMapper::toDto)
+            .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LegType> getById(@PathVariable Long id) {
+    public ResponseEntity<LegTypeDTO> getById(@PathVariable Long id) {
         logger.debug("Fetching leg type by id: {}", id);
         return legTypeService.findById(id)
+                .map(legTypeMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public LegType create(@RequestBody LegType legType) {
-        logger.info("Creating new leg type: {}", legType);
-        return legTypeService.save(legType);
+    public LegTypeDTO create(@RequestBody LegTypeDTO legTypeDTO) {
+        logger.info("Creating new leg type: {}", legTypeDTO);
+        LegType entity = legTypeMapper.toEntity(legTypeDTO);
+        return legTypeMapper.toDto(legTypeService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LegType> update(@PathVariable Long id, @RequestBody LegType legType) {
+    public ResponseEntity<LegTypeDTO> update(@PathVariable Long id, @RequestBody LegTypeDTO legTypeDTO) {
         return legTypeService.findById(id)
                 .map(existing -> {
-                    legType.setId(id);
-                    return ResponseEntity.ok(legTypeService.save(legType));
+                    LegType entity = legTypeMapper.toEntity(legTypeDTO);
+                    entity.setId(id);
+                    return ResponseEntity.ok(legTypeMapper.toDto(legTypeService.save(entity)));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

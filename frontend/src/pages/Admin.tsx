@@ -2,7 +2,7 @@ import React from 'react';
 import {useSearchParams} from "react-router-dom";
 import Layout from "../components/Layout";
 import {HomeContent} from "../components/HomeContent";
-import {UserDetailsComponent} from "../components/UserDetailsComponent";
+import {UserDetailsModal} from "../modal/UserDetailsModal";
 
 const Admin: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -10,7 +10,7 @@ const Admin: React.FC = () => {
     return (
         <Layout>
             {view === 'default' && <HomeContent/>}
-            {view === 'user-list' && <UserDetailsComponent/>}
+            {view === 'user-list' && <UserDetailsModal/>}
         </Layout>
     );
 };
