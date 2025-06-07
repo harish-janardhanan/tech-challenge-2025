@@ -23,7 +23,7 @@ const AppRouter = observer(() => (
             <Route
                 path="*"
                 element={
-                    userStore.authenticated ? <Navigate to="/home" replace/> : <Navigate to="/signin" replace/>
+                    userStore.user ? <Navigate to="/home" replace/> : <Navigate to="/signin" replace/>
                 }
             />
         </Routes>

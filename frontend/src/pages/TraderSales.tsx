@@ -2,6 +2,7 @@ import React from 'react';
 import {useSearchParams} from "react-router-dom";
 import Layout from "../components/Layout";
 import {HomeContent} from "../components/HomeContent";
+import {TradeBlotterModal} from "../modal/TradeBlotterModal";
 
 const TraderSales = () => {
 
@@ -10,6 +11,7 @@ const TraderSales = () => {
     return (
         <Layout>
             {view === 'default' && <HomeContent/>}
+            {view === 'blotter' && <TradeBlotterModal/>}
         </Layout>
     );
 };

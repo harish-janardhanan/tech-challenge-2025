@@ -6,8 +6,8 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 interface AGGridTableProps {
     columnDefs: never;
     rowData: never;
-    onSelectionChanged?: (event: never) => void;
-    rowSelection?: 'singleRow' | 'multiRow';
+    onSelectionChanged?: (event) => void;
+    rowSelection: 'singleRow' | 'multiRow';
     [key: string]: never;
 }
 
