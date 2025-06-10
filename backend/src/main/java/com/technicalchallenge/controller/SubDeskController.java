@@ -50,12 +50,12 @@ public class SubDeskController {
         if (subDeskDTO.getSubdeskName() == null || subDeskDTO.getSubdeskName().isBlank()) {
             return ResponseEntity.badRequest().body("Sub desk name is required");
         }
-        if (subDeskDTO.getDesk() == null) {
-            return ResponseEntity.badRequest().body("Desk is required");
+        if (subDeskDTO.getDeskName() == null || subDeskDTO.getDeskName().isBlank()) {
+            return ResponseEntity.badRequest().body("Desk name is required");
         }
         var entity = subDeskMapper.toEntity(subDeskDTO);
         var saved = subDeskService.saveSubDesk(entity, subDeskDTO);
-        return ResponseEntity.ok(subDeskMapper.toDto(saved));
+        return ResponseEntity.status(201).body(subDeskMapper.toDto(saved));
     }
 
     @DeleteMapping("/{id}")
@@ -66,4 +66,11 @@ public class SubDeskController {
     }
 
     // Accept and return SubDesk with Desk relationship, not deskId
+
+    @GetMapping("/values")
+    public List<String> getAllSubDeskNames() {
+        return subDeskService.getAllSubDesks().stream()
+            .map(SubDesk::getSubdeskName)
+            .toList();
+    }
 }

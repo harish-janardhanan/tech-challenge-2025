@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 // @ts-expect-error - avatar might not be found
 import avatar from '../assets/avatar.svg'
@@ -9,20 +9,19 @@ import Snackbar from "../components/Snackbar";
 import userStore from "../stores/userStore";
 
 const SignIn = () => {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passRef = useRef<HTMLInputElement>(null)
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
     const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
     const [loginError, setLoginError] = React.useState<string>("");
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
-        const email = emailRef.current?.value || '';
-        const pass = passRef.current?.value || '';
         try {
-            const authRes = await authenticate(email, pass);
+            const authRes = await authenticate(email, password);
             if (authRes.status === 200) {
                 localStorage.setItem("authenticated", "true");
+                sessionStorage.setItem("authenticated", "true")
                 const userRes = await getUserByLogin(email);
                 if (userRes.status === 200) {
                     const user = userRes.data;
@@ -63,17 +62,17 @@ const SignIn = () => {
                     <img className="rounded-2xl shadow-lg flex justify-center allign-center w-[200px] h-[200px]"
                          src={avatar} alt="avatar"/>
                     <Input
-                        ref={emailRef}
                         type="userid"
-                        name="userid"
-                        label="User ID"
+                        name="email"
+                        label="Email"
                         required
                         variant="primary"
                         size="md"
                         autoComplete="username"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <Input
-                        ref={passRef}
                         type="password"
                         name="password"
                         label="Password"
@@ -81,6 +80,8 @@ const SignIn = () => {
                         variant="primary"
                         size="md"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
                     <Button type="submit" variant="primary" size="md" onClick={handleSignIn}>
                         Sign In

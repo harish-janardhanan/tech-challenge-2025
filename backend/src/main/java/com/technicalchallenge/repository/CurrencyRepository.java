@@ -4,7 +4,9 @@ import com.technicalchallenge.model.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
-    // Custom query methods if needed
+    Optional<Currency> findByCurrency(String currency);
 }

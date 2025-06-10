@@ -68,4 +68,12 @@ public class PayRecController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllPayRecValues() {
+        logger.info("Fetching all pay/receive values");
+        return payRecService.findAll().stream()
+            .map(PayRec::getPayRec)
+            .toList();
+    }
 }

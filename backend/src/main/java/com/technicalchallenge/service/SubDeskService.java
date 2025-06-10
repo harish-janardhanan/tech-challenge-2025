@@ -33,15 +33,14 @@ public class SubDeskService {
     }
 
     public void populateReferenceDataByName(SubDesk subDesk, SubDeskDTO dto) {
-        if (dto.getDesk() != null && dto.getDesk().getDeskName() != null) {
+        if (dto.getDeskName() != null && !dto.getDeskName().isBlank()) {
             var desk = deskRepository.findAll().stream()
-                .filter(d -> d.getDeskName().equalsIgnoreCase(dto.getDesk().getDeskName()))
+                .filter(d -> d.getDeskName().equalsIgnoreCase(dto.getDeskName()))
                 .findFirst().orElse(null);
-            if (desk == null) throw new IllegalArgumentException("Desk '" + dto.getDesk().getDeskName() + "' does not exist");
+            if (desk == null) throw new IllegalArgumentException("Desk '" + dto.getDeskName() + "' does not exist");
             subDesk.setDesk(desk);
-        } else {
-            subDesk.setDesk(null);
         }
+        // If deskName is null or blank, do not modify the current desk
     }
 
     public SubDesk saveSubDesk(SubDesk subDesk, SubDeskDTO dto) {

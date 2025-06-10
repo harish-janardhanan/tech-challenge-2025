@@ -68,4 +68,12 @@ public class ScheduleController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllScheduleValues() {
+        logger.info("Fetching all schedule values");
+        return scheduleService.findAll().stream()
+            .map(Schedule::getSchedule)
+            .toList();
+    }
 }

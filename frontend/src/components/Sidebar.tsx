@@ -3,10 +3,12 @@ import {useNavigate, useSearchParams, useLocation} from 'react-router-dom';
 import Button from './Button';
 
 const navItems = [
-    {label: 'My Trade Blotter', aria: 'trade-blotter', parent: 'trade', param: 'blotter'},
-    {label: 'New Trade', aria: 'new-trade', parent: 'trade', param: 'new-trade'},
-    {label: 'Search Trade', aria: 'search-trade', parent: 'trade', param: 'search-trade'},
-    {label: 'User Admin', aria: 'user-list', parent: 'admin', param: 'user-list'},
+    {label: 'Trade Actions', aria: 'trade-actions', parent: 'trade', param: 'actions'},
+    {label: 'History', aria: 'trade-history', parent: 'trade', param: 'history'},
+    {label: 'User Actions', aria: 'user-actions', parent: 'admin', param: 'user-actions'},
+    {label: 'All Users', aria: 'user-all', parent: 'admin', param: 'user-all'}, // Added for user history
+    {label: 'Trade Actions', aria: 'trade-actions', parent: 'middle-office', param: 'actions'},
+    {label: 'View Trade', aria: 'trade-actions', parent: 'support', param: 'actions'},
 ];
 
 const Sidebar = () => {

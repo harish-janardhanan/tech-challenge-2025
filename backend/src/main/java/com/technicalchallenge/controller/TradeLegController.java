@@ -51,11 +51,10 @@ public class TradeLegController {
         if (tradeLegDTO.getNotional() == null || tradeLegDTO.getNotional().signum() <= 0) {
             return ResponseEntity.badRequest().body("Notional must be positive");
         }
-        if (tradeLegDTO.getTrade() == null || tradeLegDTO.getCurrency() == null || tradeLegDTO.getLegRateType() == null) {
-            return ResponseEntity.badRequest().body("Trade, Currency, and Leg Rate Type are required");
+        if (tradeLegDTO.getCurrency() == null || tradeLegDTO.getLegType() == null) {
+            return ResponseEntity.badRequest().body("Currency and Leg Rate Type are required");
         }
         var entity = tradeLegMapper.toEntity(tradeLegDTO);
-        tradeLegService.populateReferenceDataByName(entity, tradeLegDTO);
         var saved = tradeLegService.saveTradeLeg(entity, tradeLegDTO);
         return ResponseEntity.ok(tradeLegMapper.toDto(saved));
     }

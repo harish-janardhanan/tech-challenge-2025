@@ -68,4 +68,12 @@ public class TradeTypeController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllTradeTypeValues() {
+        logger.info("Fetching all trade type values");
+        return tradeTypeService.findAll().stream()
+            .map(TradeType::getTradeType)
+            .toList();
+    }
 }

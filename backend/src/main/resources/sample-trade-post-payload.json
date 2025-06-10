@@ -1,0 +1,47 @@
+{
+  "tradeId": "T20250608-001",
+  "version": 1,
+  "bookName": "FX-BOOK-1",
+  "counterpartyName": "BigBank",
+  "traderUserName": "Alice Smith",
+  "inputterUserName": "Bob Jones",
+  "tradeType": "Spot",
+  "tradeSubType": "Vanilla",
+  "tradeStatus": "NEW",
+  "utiCode": "UTI-20250608-001",
+  "tradeDate": "2025-06-08",
+  "startDate": "2025-06-09",
+  "maturityDate": "2025-12-08",
+  "executionDate": "2025-06-08T10:00:00Z",
+  "lastTouchTimestamp": "2025-06-08T10:00:00Z",
+  "validityStartDate": "2025-06-08",
+  "tradeLegs": [
+    {
+      "notional": 1000000.00,
+      "currency": "USD",
+      "legType": "Fixed",
+      "index": "LIBOR",
+      "holidayCalendar": "NY",
+      "calculationPeriodSchedule": "Monthly",
+      "paymentBusinessDayConvention": "Following",
+      "fixingBusinessDayConvention": "Following",
+      "payReceiveFlag": "Pay",
+      "rate": 0.025,
+      "cashflows": []
+    },
+    {
+      "notional": 1000000.00,
+      "currency": "USD",
+      "legType": "Floating",
+      "index": "LIBOR",
+      "holidayCalendar": "NY",
+      "calculationPeriodSchedule": "Monthly",
+      "paymentBusinessDayConvention": "Following",
+      "fixingBusinessDayConvention": "Following",
+      "payReceiveFlag": "Receive",
+      "rate": 0.0,
+      "cashflows": []
+    }
+  ]
+}
+

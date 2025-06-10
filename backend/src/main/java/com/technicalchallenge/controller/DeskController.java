@@ -61,4 +61,11 @@ public class DeskController {
         deskService.deleteDesk(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllDeskNames() {
+        return deskService.getAllDesks().stream()
+            .map(Desk::getDeskName)
+            .toList();
+    }
 }

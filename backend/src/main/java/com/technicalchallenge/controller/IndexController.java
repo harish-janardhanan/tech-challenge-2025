@@ -68,4 +68,12 @@ public class IndexController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllIndexValues() {
+        logger.info("Fetching all index values");
+        return indexService.findAll().stream()
+            .map(Index::getIndex)
+            .toList();
+    }
 }

@@ -2,6 +2,7 @@ package com.technicalchallenge.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,4 +52,9 @@ public class Trade {
     private LocalDateTime executionDate;
     private Long additionalFieldsId;
     private LocalDateTime lastTouchTimestamp;
+    private LocalDateTime validityStartDate;
+    private LocalDateTime validityEndDate;
+
+    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TradeLeg> tradeLegs;
 }

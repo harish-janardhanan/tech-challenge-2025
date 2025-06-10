@@ -2,7 +2,8 @@ import React from 'react';
 import {useSearchParams} from "react-router-dom";
 import Layout from "../components/Layout";
 import {HomeContent} from "../components/HomeContent";
-import {UserDetailsModal} from "../modal/UserDetailsModal";
+import {AllUserView} from "../modal/AllUserView";
+import {UserActionsModal} from "../modal/UserActionsModal";
 
 const Admin: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -10,7 +11,8 @@ const Admin: React.FC = () => {
     return (
         <Layout>
             {view === 'default' && <HomeContent/>}
-            {view === 'user-list' && <UserDetailsModal/>}
+            {view === 'user-actions' && <UserActionsModal/> /* User Admin modal removed from here */}
+            {view === 'user-all' && <AllUserView />}
         </Layout>
     );
 };

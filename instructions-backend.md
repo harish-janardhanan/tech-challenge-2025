@@ -265,9 +265,9 @@ Terminating an existing trade
  - cacelling an existing trade will set the trade status to cancelled. 
 
  Cashflow generation logic:
-  One cashflow entry needs to be generated as per the schedule  and maturity date of the leg. Example for a leg with 1M as the schedule and a maturity date of 1 year from now, 12 cashflow entries need to be generated for every month. the value date should be calculated in the monthly schedule. Another example of a leg with 3 M as the schedyke and a maturity date of 1 year from now, 4 cashflows should be generated with value date of every 3 minths . Another example of a leg with 12 M as a schedule and a maturity date of 4 years from now , 4 cashflow needs to be generated with a value date of every 12 months 
+  One cashflow entry needs to be generated as per the schedule  and maturity date of the leg. Example for a leg with 1M as the schedule and a maturity date of 1 year from now, 12 cashflow entries need to be generated for every month. the value date should be calculated in the monthly schedule. Another example of a leg with 3 M as the schedule and a maturity date of 1 year from now, 4 cashflows should be generated with value date of every 3 minths . Another example of a leg with 12 M as a schedule and a maturity date of 4 years from now , 4 cashflow needs to be generated with a value date of every 12 months 
 
-  for a leg with leg type as fixed leg, the value of the cashflow should be calculated as rate /100 * notional value. For a floating leg the value of the cashflow should be 0 
+  for a leg with leg type as fixed leg, the value of the cashflow should be calculated as simple interest for 1 month on the notional. For a floating leg the value of the cashflow should be 0 
 
   Other business validations
    - A trade can only be created with users, books and counterparties that has at least one active entry in the table at the point of booking. 

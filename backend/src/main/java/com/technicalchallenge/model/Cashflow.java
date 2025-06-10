@@ -3,6 +3,7 @@ package com.technicalchallenge.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +35,7 @@ public class Cashflow {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_business_day_convention_id", referencedColumnName = "id")
     private BusinessDayConvention paymentBusinessDayConvention;
+
+    private LocalDateTime validityStartDate;
+    private LocalDateTime validityEndDate;
 }

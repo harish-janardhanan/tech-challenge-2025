@@ -52,4 +52,11 @@ public class CounterpartyController {
         counterpartyService.deleteCounterparty(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllCounterpartyNames() {
+        return counterpartyService.getAllCounterparties().stream()
+            .map(Counterparty::getName)
+            .toList();
+    }
 }

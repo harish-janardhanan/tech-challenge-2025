@@ -36,7 +36,7 @@ public class TradeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TradeDTO> getTradeById(@PathVariable Long id) {
+    public ResponseEntity<TradeDTO> getTradeById(@PathVariable(name = "id") Long id) {
         logger.debug("Fetching trade by id: {}", id);
         return tradeService.getTradeById(id)
             .map(tradeMapper::toDto)
@@ -47,12 +47,16 @@ public class TradeController {
     @PostMapping
     public ResponseEntity<?> createTrade(@Valid @RequestBody TradeDTO tradeDTO) {
         logger.info("Creating new trade: {}", tradeDTO);
-        // Validation: tradeDate, book, counterparty, status required
+        // Validation: tradeDate, book, counterparty required
         if (tradeDTO.getTradeDate() == null) {
             return ResponseEntity.badRequest().body("Trade date is required");
         }
-        if (tradeDTO.getBook() == null || tradeDTO.getCounterparty() == null || tradeDTO.getTradeStatus() == null) {
-            return ResponseEntity.badRequest().body("Book, Counterparty, and Status are required");
+        if (tradeDTO.getBookName() == null || tradeDTO.getCounterpartyName() == null) {
+            return ResponseEntity.badRequest().body("Book and Counterparty are required");
+        }
+        // Default tradeStatus to LIVE if not provided
+        if (tradeDTO.getTradeStatus() == null) {
+            tradeDTO.setTradeStatus("LIVE");
         }
         // Lookup reference data by name
         var entity = tradeMapper.toEntity(tradeDTO);
@@ -68,5 +72,47 @@ public class TradeController {
         return ResponseEntity.noContent().build();
     }
 
-    // Accept and return Trade with related entities, not just IDs
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTrade(@PathVariable(name = "id") Long id, @Valid @RequestBody TradeDTO tradeDTO) {
+        logger.info("Amending trade with id: {}, updated data: {}", id, tradeDTO);
+
+        // Validation: tradeDate, book, counterparty required
+        if (tradeDTO.getTradeDate() == null) {
+            return ResponseEntity.badRequest().body("Trade date is required");
+        }
+        if (tradeDTO.getBookName() == null || tradeDTO.getCounterpartyName() == null) {
+            return ResponseEntity.badRequest().body("Book and Counterparty are required");
+        }
+
+        // Ensure the path variable matches the DTO tradeId
+        if (tradeDTO.getTradeId() == null) {
+            tradeDTO.setTradeId(id);
+        } else if (!tradeDTO.getTradeId().equals(id)) {
+            return ResponseEntity.badRequest().body("Trade ID in path must match Trade ID in request body");
+        }
+
+        // Convert DTO to entity
+        var entity = tradeMapper.toEntity(tradeDTO);
+        tradeService.populateReferenceDataByName(entity, tradeDTO);
+
+        // Save the amended trade (which will mark the previous version as DEAD)
+        var saved = tradeService.saveTrade(entity, tradeDTO);
+        return ResponseEntity.ok(tradeMapper.toDto(saved));
+    }
+
+    @PostMapping("/terminate/{id}")
+    public ResponseEntity<?> terminateTrade(@PathVariable(name = "id") Long id) {
+        logger.warn("Terminating trade with id: {}", id);
+
+        // Check if trade exists
+        Optional<Trade> tradeOpt = tradeService.getTradeById(id);
+        if (tradeOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Terminate the trade
+        Trade terminatedTrade = tradeService.terminateTrade(id);
+
+        return ResponseEntity.ok(tradeMapper.toDto(terminatedTrade));
+    }
 }

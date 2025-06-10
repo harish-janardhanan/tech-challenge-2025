@@ -68,4 +68,12 @@ public class LegTypeController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllLegTypeValues() {
+        logger.info("Fetching all leg type values");
+        return legTypeService.findAll().stream()
+            .map(LegType::getType)
+            .toList();
+    }
 }

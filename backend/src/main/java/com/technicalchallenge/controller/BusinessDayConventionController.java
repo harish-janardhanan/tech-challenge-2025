@@ -58,4 +58,12 @@ public class BusinessDayConventionController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllBusinessDayConventionValues() {
+        logger.info("Fetching all business day convention values");
+        return businessDayConventionService.findAll().stream()
+            .map(BusinessDayConvention::getBdc)
+            .toList();
+    }
 }

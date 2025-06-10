@@ -68,4 +68,12 @@ public class HolidayCalendarController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllHolidayCalendarValues() {
+        logger.info("Fetching all holiday calendar values");
+        return holidayCalendarService.findAll().stream()
+            .map(HolidayCalendar::getHolidayCalendar)
+            .toList();
+    }
 }

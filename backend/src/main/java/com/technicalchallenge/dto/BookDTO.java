@@ -14,5 +14,5 @@ public class BookDTO {
     private String bookName;
     private boolean active;
     private int version;
-    private CostCenterDTO costCenter;
+    private String costCenterName; // Changed from CostCenterDTO to String costCenterName
 }

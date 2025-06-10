@@ -50,7 +50,7 @@ public class CostCenterController {
         if (costCenterDTO.getCostCenterName() == null || costCenterDTO.getCostCenterName().isBlank()) {
             return ResponseEntity.badRequest().body("Cost center name is required");
         }
-        if (costCenterDTO.getSubDesk() == null) {
+        if (costCenterDTO.getSubDeskName() == null) {
             return ResponseEntity.badRequest().body("Sub desk is required");
         }
         var entity = costCenterMapper.toEntity(costCenterDTO);
@@ -63,5 +63,12 @@ public class CostCenterController {
         logger.warn("Deleting cost center with id: {}", id);
         costCenterService.deleteCostCenter(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/values")
+    public List<String> getAllCostCenterNames() {
+        return costCenterService.getAllCostCenters().stream()
+            .map(CostCenter::getCostCenterName)
+            .toList();
     }
 }

@@ -34,15 +34,14 @@ public class CostCenterService {
     }
 
     public void populateReferenceDataByName(CostCenter costCenter, CostCenterDTO dto) {
-        if (dto.getSubDesk() != null && dto.getSubDesk().getSubdeskName() != null) {
+        if (dto.getSubDeskName() != null && !dto.getSubDeskName().isBlank()) {
             var subDesk = subDeskRepository.findAll().stream()
-                .filter(s -> s.getSubdeskName().equalsIgnoreCase(dto.getSubDesk().getSubdeskName()))
+                .filter(s -> s.getSubdeskName().equalsIgnoreCase(dto.getSubDeskName()))
                 .findFirst().orElse(null);
-            if (subDesk == null) throw new IllegalArgumentException("SubDesk '" + dto.getSubDesk().getSubdeskName() + "' does not exist");
+            if (subDesk == null) throw new IllegalArgumentException("SubDesk '" + dto.getSubDeskName() + "' does not exist");
             costCenter.setSubDesk(subDesk);
-        } else {
-            costCenter.setSubDesk(null);
         }
+        // If subDeskName is null or blank, do not modify the current subDesk
     }
 
     public CostCenter saveCostCenter(CostCenter costCenter, CostCenterDTO dto) {

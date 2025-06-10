@@ -1,24 +1,23 @@
 package com.technicalchallenge.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class TradeDTO {
     private Long id;
     private Long tradeId;
     private Integer version;
-    private BookDTO book;
-    private CounterpartyDTO counterparty;
-    private UserDTO traderUser;
-    private UserDTO inputterUser;
+    private String bookName;
+    private String counterpartyName;
+    private String traderUserName;
+    private String inputterUserName;
     private String tradeType;
     private String tradeSubType;
     private String tradeStatus;
@@ -29,4 +28,8 @@ public class TradeDTO {
     private LocalDateTime executionDate;
     private Long additionalFieldsId;
     private LocalDateTime lastTouchTimestamp;
+    private List<TradeLegDTO> tradeLegs;
+    private LocalDateTime validityStartDate;
+    private LocalDateTime validityEndDate;
 }
+

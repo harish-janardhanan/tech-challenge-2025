@@ -1,9 +1,6 @@
 package com.technicalchallenge.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,10 +8,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CashflowDTO {
     private Long id;
-    private TradeLegDTO leg;
     private BigDecimal paymentValue;
     private LocalDate valueDate;
     private String payRec;

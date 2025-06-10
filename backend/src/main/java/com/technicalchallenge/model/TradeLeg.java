@@ -2,6 +2,8 @@ package com.technicalchallenge.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,4 +54,10 @@ public class TradeLeg {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pay_receive_flag_id", referencedColumnName = "id")
     private PayRec payReceiveFlag;
+
+    private LocalDateTime validityStartDate;
+    private LocalDateTime validityEndDate;
+
+    @OneToMany(mappedBy = "leg", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cashflow> cashflows;
 }

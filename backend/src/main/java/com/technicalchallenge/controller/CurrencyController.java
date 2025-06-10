@@ -68,4 +68,12 @@ public class CurrencyController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllCurrencyValues() {
+        logger.info("Fetching all currency values");
+        return currencyService.findAll().stream()
+            .map(Currency::getCurrency)
+            .toList();
+    }
 }

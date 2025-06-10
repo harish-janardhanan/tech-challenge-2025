@@ -1,29 +1,22 @@
 import React from "react";
 import {observer} from "mobx-react-lite";
 import AGGridTable from "../components/AGGridTable";
-import {useQuery} from "@tanstack/react-query";
-import {queries} from "@testing-library/react";
-import api, {fetchTrades} from "../utils/api";
+import {fetchTrades} from "../utils/api";
 import {getColDefFromResult, getRowDataFromData} from "../utils/agGridUtils";
+import { useQuery } from '@tanstack/react-query';
+
 
 export const TradeBlotterModal: React.FC = observer(() => {
     const [trades, setTrades] = React.useState<any[]>([]);
-    const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
 
-    const {data, isLoading, error, isSuccess} = useQuery({
+    const {data, isSuccess} = useQuery({
         queryKey: ['trades'],
         queryFn: async () => {
             const res = await fetchTrades();
             return res.data;
         },
-        onError: (err) => {
-            console.error("Error fetching trades:", err);
-            setIsSnackbarOpen(true);
-            setTimeout(() => {
-                setIsSnackbarOpen(false)
-            }, 3000);
-        },
         refetchInterval: 30000,
+        refetchIntervalInBackground: true,
     });
 
     React.useEffect(() => {
@@ -41,7 +34,7 @@ export const TradeBlotterModal: React.FC = observer(() => {
                              rowData={rowData}
                              onSelectionChanged={() => {
                              }}
-                             rowSelection={"singleRow"}> </AGGridTable>
+                             rowSelection={"single"}/>
             </div>
         </div>
     )

@@ -12,5 +12,5 @@ import lombok.Setter;
 public class CostCenterDTO {
     private Long id;
     private String costCenterName;
-    private SubDeskDTO subDesk;
+    private String subDeskName; // Changed from SubDeskDTO to String
 }

@@ -1,26 +1,20 @@
-import React, {useMemo} from 'react';
-import {AgGridReact} from 'ag-grid-react';
+import React from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { ColDef } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {ab} from "vitest/dist/chunks/reporters.d.C1ogPriE";
 
 interface AGGridTableProps {
-    columnDefs: never;
-    rowData: never;
-    onSelectionChanged?: (event) => void;
-    rowSelection: 'singleRow' | 'multiRow';
-    [key: string]: never;
+    columnDefs: ColDef[];
+    rowData: never[];
+    onSelectionChanged?: (event: any) => void;
+    rowSelection: 'single' | 'multiple';
+    [key: string]: any;
 }
 
 const AGGridTable: React.FC<AGGridTableProps> = (props) => {
     const { columnDefs, rowData, onSelectionChanged, rowSelection, ...rest } = props;
-
-    const gridRowSelection = useMemo(() => {
-        return {
-            mode: rowSelection,
-            checkboxes: false,
-            enableClickSelection: true,
-        };
-    }, [rowSelection]);
 
     return (
         <div className={"h-fit w-full ag-theme-alpine"}>
@@ -28,14 +22,13 @@ const AGGridTable: React.FC<AGGridTableProps> = (props) => {
                 columnDefs={columnDefs}
                 rowData={rowData}
                 domLayout="autoHeight"
+                rowSelection={rowSelection}
                 theme={"legacy"}
-                rowSelection={gridRowSelection}
                 onSelectionChanged={onSelectionChanged}
-
                 {...rest}
             />
         </div>
-    )
+    );
 };
 
 export default AGGridTable;

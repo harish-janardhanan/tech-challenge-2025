@@ -50,7 +50,7 @@ public class BookController {
         if (bookDTO.getBookName() == null || bookDTO.getBookName().isBlank()) {
             return ResponseEntity.badRequest().body("Book name is required");
         }
-        if (bookDTO.getCostCenter() == null) {
+        if (bookDTO.getCostCenterName() == null) {
             return ResponseEntity.badRequest().body("Cost center is required");
         }
         var entity = bookMapper.toEntity(bookDTO);
@@ -66,4 +66,11 @@ public class BookController {
     }
 
     // Accept and return Book with CostCenter relationship, not costCenterId
+
+    @GetMapping("/values")
+    public List<String> getAllBookNames() {
+        return bookService.getAllBooks().stream()
+            .map(Book::getBookName)
+            .toList();
+    }
 }

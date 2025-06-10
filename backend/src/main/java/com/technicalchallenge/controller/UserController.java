@@ -3,6 +3,7 @@ package com.technicalchallenge.controller;
 import com.technicalchallenge.dto.UserDTO;
 import com.technicalchallenge.mapper.ApplicationUserMapper;
 import com.technicalchallenge.model.ApplicationUser;
+import com.technicalchallenge.model.TradeType;
 import com.technicalchallenge.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -79,5 +80,13 @@ public class UserController {
         logger.warn("Deleting user with id: {}", id);
         applicationUserService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/values")
+    public List<String> getAllTradeTypeValues() {
+        logger.info("Fetching all trade type values");
+        return applicationUserService.getAllUsers().stream()
+                .map(ApplicationUser::getLoginId)
+                .toList();
     }
 }

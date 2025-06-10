@@ -12,5 +12,5 @@ import lombok.Setter;
 public class SubDeskDTO {
     private Long id;
     private String subdeskName;
-    private DeskDTO desk;
+    private String deskName;
 }

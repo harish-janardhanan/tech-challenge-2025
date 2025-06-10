@@ -68,4 +68,12 @@ public class TradeStatusController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/values")
+    public List<String> getAllTradeStatusValues() {
+        logger.info("Fetching all trade status values");
+        return tradeStatusService.findAll().stream()
+            .map(TradeStatus::getTradeStatus)
+            .toList();
+    }
 }

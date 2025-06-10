@@ -34,15 +34,14 @@ public class BookService {
     }
 
     public void populateReferenceDataByName(Book book, BookDTO dto) {
-        if (dto.getCostCenter() != null && dto.getCostCenter().getCostCenterName() != null) {
+        if (dto.getCostCenterName() != null && !dto.getCostCenterName().isBlank()) {
             var costCenter = costCenterRepository.findAll().stream()
-                .filter(c -> c.getCostCenterName().equalsIgnoreCase(dto.getCostCenter().getCostCenterName()))
+                .filter(c -> c.getCostCenterName().equalsIgnoreCase(dto.getCostCenterName()))
                 .findFirst().orElse(null);
-            if (costCenter == null) throw new IllegalArgumentException("CostCenter '" + dto.getCostCenter().getCostCenterName() + "' does not exist");
+            if (costCenter == null) throw new IllegalArgumentException("CostCenter '" + dto.getCostCenterName() + "' does not exist");
             book.setCostCenter(costCenter);
-        } else {
-            book.setCostCenter(null);
         }
+        // If costCenterName is null or blank, do not modify the current costCenter
     }
 
     public Book saveBook(Book book, BookDTO dto) {

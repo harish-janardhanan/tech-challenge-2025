@@ -13,7 +13,13 @@ import {ApplicationUser} from "../utils/ApplicationUser";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-export const UserDetailsModal: React.FC = observer(() => {
+interface AllUserViewProps {
+    setView: (view: string, user?: any) => void;
+    selectedUser: any;
+    setSelectedUser: (user: any) => void;
+}
+
+export const AllUserView: React.FC<AllUserViewProps> = observer(() => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMsg, setSnackbarMsg] = useState("");
     const [snackbarType, setSnackbarType] = useState<'success' | 'error'>("success");
@@ -23,21 +29,6 @@ export const UserDetailsModal: React.FC = observer(() => {
     const [currentUser, setCurrentUser] = useState<ApplicationUser | null>(null);
     const [users, setUsers] = useState<ApplicationUser[]>([]);
 
-
-    const onAddUser = () => {
-        setCurrentUser({
-            id: 0,
-            firstName: '',
-            lastName: '',
-            loginId: '',
-            password: '',
-            active: true,
-            userProfile: '',
-            version: 0,
-            lastModifiedTimestamp: new Date().toISOString(),
-        });
-        setIsDetailOpen(true);
-    };
 
     const onLoadUsers = async () => {
         setIsLoading(true);
@@ -106,12 +97,15 @@ export const UserDetailsModal: React.FC = observer(() => {
         const selectedRows = event.api.getSelectedRows();
         if (selectedRows.length > 0) {
             setCurrentUser(selectedRows[0]);
+        } else {
+            setCurrentUser(null);
         }
-
     };
 
     const handleEditUser = () => {
-        setIsDetailOpen(true);
+        if (currentUser) {
+            setIsDetailOpen(true)
+        }
     }
 
     const columnDefs = getColDefFromResult(users);
@@ -132,7 +126,7 @@ export const UserDetailsModal: React.FC = observer(() => {
                     <AGGridTable
                         columnDefs={columnDefs}
                         rowData={rowDefs}
-                        rowSelection="singleRow"
+                        rowSelection="single"
                         onSelectionChanged={handleSelectionChanged}
                     />
                 )}
@@ -140,19 +134,18 @@ export const UserDetailsModal: React.FC = observer(() => {
             <div className={"flex flex-row justify-end gap-2 mt-2"}>
                 <Button variant={"primary"} type={"submit"} size={"sm"} className={"w-30 mt-2"} onClick={onLoadUsers}>Load
                     Users</Button>
-                <Button variant={"primary"} type={"submit"} size={"sm"} className={"w-30  mt-2"}
-                        onClick={onAddUser}>Add User</Button>
                 <Button variant={"primary"} type={"submit"} size={"sm"}
                         className={"w-30  mt-2 !bg-amber-500 hover:!bg-amber-700"}
-                        onClick={handleEditUser}>Edit User</Button></div>
+                        onClick={handleEditUser} disabled={!currentUser}>Edit User</Button></div>
             <SingleUserModal isOpen={isDetailOpen}
                              user={currentUser}
                              setUser={setCurrentUser}
-                             onClose={() => {setIsDetailOpen(false); setCurrentUser(null);}}
-                             onClickSave={handleSaveUser}/>
-            <Snackbar open={snackbarOpen} message={snackbarMsg} type={snackbarType}
-                      onClose={() => setSnackbarOpen(false)}/>
+                             onClose={() => { setIsDetailOpen(false); setCurrentUser(null); }}
+                             onClickSave={handleSaveUser}
+            />
         </div>
 
     );
 });
+
+export default AllUserView;

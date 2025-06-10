@@ -4,7 +4,9 @@ import com.technicalchallenge.model.LegType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface LegTypeRepository extends JpaRepository<LegType, Long> {
-    // Custom query methods if needed
+    Optional<LegType> findByType(String type);
 }
