@@ -129,13 +129,15 @@ public class TradeService {
         boolean isAmend = false;
         Trade previousLatest = null;
 
+        var statuses = tradeStatusRepository.findAll();
+
         // Get LIVE and DEAD statuses once
-        TradeStatus liveStatus = tradeStatusRepository.findAll().stream()
+        TradeStatus liveStatus = statuses.stream()
             .filter(ts -> "LIVE".equalsIgnoreCase(ts.getTradeStatus()))
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("LIVE trade status not found"));
 
-        TradeStatus deadStatus = tradeStatusRepository.findAll().stream()
+        TradeStatus deadStatus = statuses.stream()
             .filter(ts -> "DEAD".equalsIgnoreCase(ts.getTradeStatus()))
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("DEAD trade status not found"));

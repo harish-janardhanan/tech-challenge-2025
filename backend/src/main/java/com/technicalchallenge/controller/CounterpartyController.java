@@ -30,7 +30,7 @@ public class CounterpartyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CounterpartyDTO> getCounterpartyById(@PathVariable Long id) {
+    public ResponseEntity<CounterpartyDTO> getCounterpartyById(@PathVariable(name = "id") Long id) {
         return counterpartyService.getCounterpartyById(id)
             .map(counterpartyMapper::toDto)
             .map(ResponseEntity::ok)
@@ -48,7 +48,7 @@ public class CounterpartyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCounterparty(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCounterparty(@PathVariable(name = "id") Long id) {
         counterpartyService.deleteCounterparty(id);
         return ResponseEntity.noContent().build();
     }

@@ -113,6 +113,8 @@ public class CashflowControllerTest {
 
         // When/Then
         mockMvc.perform(get("/api/cashflows/1")
+
+
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))

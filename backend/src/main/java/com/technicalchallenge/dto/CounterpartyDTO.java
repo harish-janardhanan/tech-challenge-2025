@@ -2,14 +2,12 @@ package com.technicalchallenge.dto;
 
 import java.time.LocalDate;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CounterpartyDTO {
     private Long id;

@@ -1,12 +1,18 @@
 package com.technicalchallenge.service;
 
+import com.technicalchallenge.dto.BookDTO;
 import com.technicalchallenge.model.Book;
+import com.technicalchallenge.model.CostCenter;
 import com.technicalchallenge.repository.BookRepository;
+import com.technicalchallenge.repository.CostCenterRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import java.util.List;
 import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +23,9 @@ public class BookServiceTest {
     private BookRepository bookRepository;
     @InjectMocks
     private BookService bookService;
+
+    @Mock
+    private CostCenterRepository costCenterRepository;
 
     @Test
     void testFindBookById() {
@@ -32,8 +41,14 @@ public class BookServiceTest {
     void testSaveBook() {
         Book book = new Book();
         book.setId(2L);
+        CostCenter costCenter = new CostCenter();
+        costCenter.setId(1L);
+        costCenter.setCostCenterName("Cost Center");
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(1L);
         when(bookRepository.save(book)).thenReturn(book);
-        Book saved = bookService.saveBook(book, null);
+
+        Book saved = bookService.saveBook(book, bookDTO);
         assertNotNull(saved);
         assertEquals(2L, saved.getId());
     }

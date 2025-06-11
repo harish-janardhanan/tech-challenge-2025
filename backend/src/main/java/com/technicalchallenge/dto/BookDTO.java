@@ -1,13 +1,11 @@
 package com.technicalchallenge.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class BookDTO {
     private Long id;
