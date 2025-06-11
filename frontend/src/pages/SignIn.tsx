@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import {authenticate,getUserByLogin} from "../utils/api";
 import Snackbar from "../components/Snackbar";
 import userStore from "../stores/userStore";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const SignIn = () => {
     const [email, setEmail] = useState<string>('');
@@ -14,8 +15,10 @@ const SignIn = () => {
     const navigate = useNavigate();
     const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
     const [loginError, setLoginError] = React.useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSignIn = async (e: React.FormEvent) => {
+        setLoading(true)
         e.preventDefault();
         try {
             const authRes = await authenticate(email, password);
@@ -30,6 +33,7 @@ const SignIn = () => {
                     userStore.isLoading = false;
                     console.log("User details fetched successfully:", user);
                     console.log("User profile:", userStore.authorization);
+                    setLoading(false)
                     navigate('/home');
                 } else {
                     setLoginError("Failed to fetch user details.");
@@ -47,6 +51,7 @@ const SignIn = () => {
                 setIsSnackBarOpen(false)
                 setLoginError("");
             }, 3000);
+            setLoading(false)
         }
     };
 
@@ -56,6 +61,7 @@ const SignIn = () => {
             <div className={"mb-10 font-semibold text-2xl"}> Welcome to Trading Platform, please use the below form to
                 Login
             </div>
+            {loading ? <LoadingSpinner/> :
             <div
                 className="rounded-2xl border border-gray-300 shadow-2xl shadow-gray-300 bg-white p-8 gap-y-4 flex flex-col justify-center items-center">
                 <form className="flex flex-col gap-4 bg-white p-8 rounded-xl shadow-none" onSubmit={handleSignIn}>
@@ -88,6 +94,7 @@ const SignIn = () => {
                     </Button>
                 </form>
             </div>
+            }
                 <Snackbar open={isSnackBarOpen} message={loginError} type={loginError !== "" ? 'error' : "success"} onClose={() => setIsSnackBarOpen(false)}/>
         </div>
     );

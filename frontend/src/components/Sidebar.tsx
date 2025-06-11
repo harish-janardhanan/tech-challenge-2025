@@ -8,6 +8,7 @@ const navItems = [
     {label: 'User Actions', aria: 'user-actions', parent: 'admin', param: 'user-actions'},
     {label: 'All Users', aria: 'user-all', parent: 'admin', param: 'user-all'}, // Added for user history
     {label: 'Trade Actions', aria: 'trade-actions', parent: 'middle-office', param: 'actions'},
+    {label: 'Static Data Management', aria: 'static-actions', parent: 'middle-office', param: 'static'},
     {label: 'View Trade', aria: 'trade-actions', parent: 'support', param: 'actions'},
 ];
 

@@ -41,7 +41,7 @@ public class CashflowController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CashflowDTO> getCashflowById(@PathVariable Long id) {
+    public ResponseEntity<CashflowDTO> getCashflowById(@PathVariable(name = "id") Long id) {
         logger.debug("Fetching cashflow by id: {}", id);
         return cashflowService.getCashflowById(id)
             .map(cashflowMapper::toDto)
@@ -66,7 +66,7 @@ public class CashflowController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCashflow(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCashflow(@PathVariable(name = "id") Long id) {
         logger.warn("Deleting cashflow with id: {}", id);
         cashflowService.deleteCashflow(id);
         return ResponseEntity.noContent().build();

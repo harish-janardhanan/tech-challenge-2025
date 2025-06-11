@@ -34,6 +34,11 @@ public class ApplicationUserService {
         return applicationUserRepository.findById(id);
     }
 
+    public Optional<ApplicationUser> getUserByLoginId(String loginId) {
+        logger.debug("Retrieving user by login id: {}", loginId);
+        return applicationUserRepository.findByLoginId(loginId);
+    }
+
     public ApplicationUser saveUser(ApplicationUser user) {
         logger.info("Saving user: {}", user);
         return applicationUserRepository.save(user);

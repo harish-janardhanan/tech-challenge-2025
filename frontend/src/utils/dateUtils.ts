@@ -33,3 +33,34 @@ export const formatDateForBackend = (d: string | Date | undefined | null): strin
     if (typeof d === 'object') return d.toISOString();
     return d as string;
 };
+
+/**
+ * Format dates from backend API response for display
+ * @param trade - Trade data from backend
+ * @returns {any} Trade with properly formatted dates
+ */
+export const formatDatesFromBackend = (trade: any): any => {
+    // Convert any full ISO date strings (with time) to just the date portion (YYYY-MM-DD)
+    if (trade.tradeDate && trade.tradeDate.includes('T')) {
+        trade.tradeDate = trade.tradeDate.split('T')[0];
+    }
+    if (trade.startDate && trade.startDate.includes('T')) {
+        trade.startDate = trade.startDate.split('T')[0];
+    }
+    if (trade.maturityDate && trade.maturityDate.includes('T')) {
+        trade.maturityDate = trade.maturityDate.split('T')[0];
+    }
+    if (trade.executionDate && trade.executionDate.includes('T')) {
+        trade.executionDate = trade.executionDate.split('T')[0];
+    }
+    if (trade.lastTouchTimestamp && trade.lastTouchTimestamp.includes('T')) {
+        trade.lastTouchTimestamp = trade.lastTouchTimestamp.split('T')[0];
+    }
+    if (trade.validityStartDate && trade.validityStartDate.includes('T')) {
+        trade.validityStartDate = trade.validityStartDate.split('T')[0];
+    }
+    if (trade.validityEndDate && trade.validityEndDate.includes('T')) {
+        trade.validityEndDate = trade.validityEndDate.split('T')[0];
+    }
+    return trade;
+};

@@ -66,7 +66,7 @@ public class TradeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTrade(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTrade(@PathVariable(name = "id") Long id) {
         logger.warn("Deleting trade with id: {}", id);
         tradeService.deleteTrade(id);
         return ResponseEntity.noContent().build();

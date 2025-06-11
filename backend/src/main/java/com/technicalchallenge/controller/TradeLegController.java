@@ -36,7 +36,7 @@ public class TradeLegController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TradeLegDTO> getTradeLegById(@PathVariable Long id) {
+    public ResponseEntity<TradeLegDTO> getTradeLegById(@PathVariable(name = "id") Long id) {
         logger.debug("Fetching trade leg by id: {}", id);
         return tradeLegService.getTradeLegById(id)
             .map(tradeLegMapper::toDto)
@@ -60,7 +60,7 @@ public class TradeLegController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTradeLeg(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTradeLeg(@PathVariable(name = "id") Long id) {
         logger.warn("Deleting trade leg with id: {}", id);
         tradeLegService.deleteTradeLeg(id);
         return ResponseEntity.noContent().build();

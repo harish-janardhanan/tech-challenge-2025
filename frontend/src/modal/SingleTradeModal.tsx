@@ -8,6 +8,7 @@ import Snackbar from "../components/Snackbar";
 import TradeDetails from "../components/TradeDetails";
 import TradeLegDetails from "../components/TradeLegDetails";
 import {getDefaultTrade, validateTrade, formatTradeForBackend, convertEmptyStringsToNull} from "../utils/tradeUtils";
+import {formatDatesFromBackend} from "../utils/dateUtils";
 import LoadingSpinner from "../components/LoadingSpinner";
 import userStore from "../stores/userStore";
 
@@ -143,6 +144,11 @@ export const SingleTradeModal: React.FC<SingleTradeModalProps> = (props) => {
                 setSnackbarMsg(`Trade updated successfully! Trade ID: ${editableTrade.tradeId}`);
                 setSnackbarType('success');
                 setSnackbarOpen(true);
+
+                // Fetch the updated trade to ensure the view shows the most recent data
+                const response = await api.get(`/trades/${editableTrade.tradeId}`);
+                const updatedTrade = formatDatesFromBackend(response.data);
+                setEditableTrade(updatedTrade);
             } else {
                 // Save new trade
                 const response = await api.post('/trades', tradeDto);

@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import {HomeContent} from "../components/HomeContent";
 import SingleTradeModal from "../modal/SingleTradeModal";
 import {TradeActionsModal} from "../modal/TradeActionsModal";
+import {StaticDataActionsModal} from "../modal/StaticDataActionsModal";
 
 const MiddleOffice = () => {
     const [searchParams] = useSearchParams();
@@ -12,6 +13,7 @@ const MiddleOffice = () => {
         <Layout>
             {view === 'default' && <HomeContent/>}
             {view === 'actions' && <TradeActionsModal /> }
+            {view === 'static' && <StaticDataActionsModal /> }
         </Layout>
     );
 };

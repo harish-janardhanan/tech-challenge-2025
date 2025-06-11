@@ -87,7 +87,7 @@ export const SingleUserModal: React.FC<UserDetailModalProps> = observer((props) 
                                     value={user[field.key as keyof ApplicationUser] ?? ""}
                                     options={options}
                                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFieldChange(field.key as keyof ApplicationUser, e.target.value)}
-                                    className="w-2/3"
+                                    className="min-w=[150px] h-fit bg-white"
                                 />
                             </div>
                         );

@@ -5,9 +5,9 @@ import Button from './Button';
 import userStore from "../stores/userStore";
 
 const navItems = [
-    {label: 'Home', aria: 'home', path: '/home', profile: 'default'},
-    {label: 'Trading', aria: 'trade', path: '/trade' , profile: 'TRADER_SALES'},
-    {label: 'Middle Office', aria: 'trades', path: '/middle-office', profile: "MIDDLE_OFFICE"},
+    {label: 'Home', aria: 'home', path: '/home', profile: ['default', 'TRADER_SALES', 'MO', 'SUPPORT', 'ADMIN', 'SUPER_USER']},
+    {label: 'Trading', aria: 'trade', path: '/trade' , profile: ['TRADER_SALES', 'MO', 'SUPPORT','SUPER_USER']},
+    {label: 'Middle Office', aria: 'trades', path: '/middle-office', profile: ["MO"]},
     {label: 'Support Team', aria: 'support', path: '/support', profile: "SUPPORT"},
     {label: 'Administrator', aria: 'admin', path: '/admin', profile: "ADMIN"},
 ];
@@ -31,7 +31,7 @@ const Navbar = () => {
                 </div>
                 <div className="inline-flex rounded-xl shadow bg-white p-1 gap-2">
                     {navItems.map((item) => (
-                        userStore.authorization == item.profile &&
+                        item.profile.includes(userStore.authorization ? userStore.authorization : "") &&
                         <Button
                             key={item.aria}
                             variant="primary"

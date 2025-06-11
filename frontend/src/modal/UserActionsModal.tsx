@@ -61,7 +61,7 @@ export const UserActionsModal: React.FC<UserActionsModalProps> = observer(({ use
         e.preventDefault();
         setLoading(true)
         try {
-            const userResponse = await api.get(`/users/${userId}`);
+            const userResponse = await api.get(`/users/loginId/${userId}`);
             if (userResponse.status === 200) {
                 setUser(userResponse.data);
                 setSnackbarOpen(true)
