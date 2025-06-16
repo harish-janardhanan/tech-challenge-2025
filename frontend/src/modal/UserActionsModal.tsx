@@ -150,7 +150,7 @@ export const UserActionsModal: React.FC<UserActionsModalProps> = observer(({ use
                 />}
             </div>
             <Snackbar open={snackBarOpen} message={snackbarMessage} onClose={() => setSnackbarOpen(false)}
-                      type={isLoadError ? "error" : "success"}/>
+                      type={snackBarType}/>
         </div>
     )
 })

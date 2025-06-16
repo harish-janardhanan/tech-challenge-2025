@@ -28,8 +28,8 @@ public class CurrencyController {
     public List<CurrencyDTO> getAll() {
         logger.info("Fetching all currencies");
         return currencyService.findAll().stream()
-            .map(currencyMapper::toDto)
-            .toList();
+                .map(currencyMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class CurrencyController {
     public List<String> getAllCurrencyValues() {
         logger.info("Fetching all currency values");
         return currencyService.findAll().stream()
-            .map(Currency::getCurrency)
-            .toList();
+                .map(Currency::getCurrency)
+                .toList();
     }
 }

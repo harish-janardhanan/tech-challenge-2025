@@ -32,8 +32,8 @@ public class PrivilegeController {
     public List<PrivilegeDTO> getAllPrivileges() {
         logger.info("Fetching all privileges");
         return privilegeService.getAllPrivileges().stream()
-            .map(privilegeMapper::toDto)
-            .toList();
+                .map(privilegeMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -41,8 +41,8 @@ public class PrivilegeController {
         logger.debug("Fetching privilege by id: {}", id);
         Optional<Privilege> privilege = privilegeService.getPrivilegeById(id);
         return privilege.map(privilegeMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

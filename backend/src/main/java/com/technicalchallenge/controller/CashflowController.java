@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,17 @@ public class CashflowController {
     public List<CashflowDTO> getAllCashflows() {
         logger.info("Fetching all cashflows");
         return cashflowService.getAllCashflows().stream()
-            .map(cashflowMapper::toDto)
-            .toList();
+                .map(cashflowMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CashflowDTO> getCashflowById(@PathVariable(name = "id") Long id) {
         logger.debug("Fetching cashflow by id: {}", id);
         return cashflowService.getCashflowById(id)
-            .map(cashflowMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(cashflowMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

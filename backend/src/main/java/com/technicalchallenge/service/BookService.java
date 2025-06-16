@@ -1,9 +1,11 @@
 package com.technicalchallenge.service;
 
 import com.technicalchallenge.dto.BookDTO;
+import com.technicalchallenge.mapper.BookMapper;
 import com.technicalchallenge.model.Book;
 import com.technicalchallenge.repository.BookRepository;
 import com.technicalchallenge.repository.CostCenterRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,23 +16,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BookService {
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    @Autowired
-    private BookRepository bookRepository;
 
-    @Autowired
-    private CostCenterRepository costCenterRepository;
+    private final BookRepository bookRepository;
+    private final CostCenterRepository costCenterRepository;
+    private final BookMapper bookMapper;
 
-    public List<Book> getAllBooks() {
+    public List<BookDTO> getAllBooks() {
         logger.info("Retrieving all books");
-        return bookRepository.findAll();
+        return bookRepository.findAll().stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 
-    public Optional<Book> getBookById(Long id) {
+    public Optional<BookDTO> getBookById(Long id) {
         logger.debug("Retrieving book by id: {}", id);
-        return bookRepository.findById(id);
+        return bookRepository.findById(id).map(bookMapper::toDto);
     }
 
     public void populateReferenceDataByName(Book book, BookDTO dto) {
@@ -44,10 +48,14 @@ public class BookService {
         // If costCenterName is null or blank, do not modify the current costCenter
     }
 
-    public Book saveBook(Book book, BookDTO dto) {
-        logger.info("Saving book: {}", book);
-        populateReferenceDataByName(book, dto);
-        return bookRepository.save(book);
+    public BookDTO saveBook(BookDTO dto) {
+        logger.info("Saving book: {}", dto.toString());
+        var entity = bookMapper.toEntity(dto);
+        logger.debug("Saving book Entity: {}", entity);
+        populateReferenceDataByName(entity, dto);
+        var saved = bookRepository.save(entity);
+
+        return bookMapper.toDto(saved);
     }
 
     public void deleteBook(Long id) {

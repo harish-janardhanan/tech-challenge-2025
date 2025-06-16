@@ -20,16 +20,16 @@ public class UserProfileController {
     @GetMapping
     public List<UserProfileDTO> getAllUserProfiles() {
         return userProfileService.getAllUserProfiles().stream()
-            .map(userProfileMapper::toDto)
-            .toList();
+                .map(userProfileMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserProfileDTO> getUserProfileById(@PathVariable Long id) {
         return userProfileService.getUserProfileById(id)
-            .map(userProfileMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(userProfileMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

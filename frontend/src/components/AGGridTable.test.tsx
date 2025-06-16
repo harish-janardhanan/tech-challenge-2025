@@ -8,7 +8,7 @@ describe('AGGridTable Component', () => {
   it('renders the AG Grid container', () => {
     const columnDefs = [{ headerName: 'Test', field: 'test' }];
     const rowData = [{ test: 'value' }];
-    render(<AGGridTable columnDefs={columnDefs} rowData={rowData} />);
+    render(<AGGridTable columnDefs={columnDefs} rowData={rowData} rowSelection={'single'} />);
     expect(screen.getByRole('grid')).toBeInTheDocument();
   });
 });

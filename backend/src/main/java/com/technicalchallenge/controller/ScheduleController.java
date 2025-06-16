@@ -28,8 +28,8 @@ public class ScheduleController {
     public List<ScheduleDTO> getAll() {
         logger.info("Fetching all schedules");
         return scheduleService.findAll().stream()
-            .map(scheduleMapper::toDto)
-            .toList();
+                .map(scheduleMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class ScheduleController {
     public List<String> getAllScheduleValues() {
         logger.info("Fetching all schedule values");
         return scheduleService.findAll().stream()
-            .map(Schedule::getSchedule)
-            .toList();
+                .map(Schedule::getSchedule)
+                .toList();
     }
 }

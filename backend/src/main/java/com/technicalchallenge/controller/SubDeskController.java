@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,17 +32,17 @@ public class SubDeskController {
     public List<SubDeskDTO> getAllSubDesks() {
         logger.info("Fetching all subdesks");
         return subDeskService.getAllSubDesks().stream()
-            .map(subDeskMapper::toDto)
-            .toList();
+                .map(subDeskMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SubDeskDTO> getSubDeskById(@PathVariable Long id) {
         logger.debug("Fetching subdesk by id: {}", id);
         return subDeskService.getSubDeskById(id)
-            .map(subDeskMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(subDeskMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -70,7 +71,7 @@ public class SubDeskController {
     @GetMapping("/values")
     public List<String> getAllSubDeskNames() {
         return subDeskService.getAllSubDesks().stream()
-            .map(SubDesk::getSubdeskName)
-            .toList();
+                .map(SubDesk::getSubdeskName)
+                .toList();
     }
 }

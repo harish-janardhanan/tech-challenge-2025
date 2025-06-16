@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
+//@ts-expect-error - Logo might not be found
 import logo from '../assets/trading-logo.svg'
 import Button from './Button';
 import userStore from "../stores/userStore";

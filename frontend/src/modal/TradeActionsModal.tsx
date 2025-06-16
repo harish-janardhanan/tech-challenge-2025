@@ -10,11 +10,12 @@ import Snackbar from "../components/Snackbar";
 import {observer} from "mobx-react-lite";
 import {useQuery} from '@tanstack/react-query';
 import staticStore from "../stores/staticStore";
+import {Trade, TradeLeg} from "../utils/tradeTypes";
 
 export const TradeActionsModal: React.FC = observer(() => {
     const [tradeId, setTradeId] = React.useState<string>("");
     const [snackBarOpen, setSnackbarOpen] = React.useState<boolean>(false);
-    const [trade, setTrade] = React.useState<any | null>(null);
+    const [trade, setTrade] = React.useState<Trade | null>(null);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState<string>("");
     const [isLoadError, setIsLoadError] = React.useState<boolean>(false);
@@ -33,7 +34,7 @@ export const TradeActionsModal: React.FC = observer(() => {
             console.log("Static values loaded successfully");
         }
         if (error) {
-            staticStore.error = (error as any).message || 'Unknown error';
+            staticStore.error = (error).message || 'Unknown error';
         }
     }, [isSuccess, error]);
 
@@ -66,7 +67,7 @@ export const TradeActionsModal: React.FC = observer(() => {
                 });
                 if (Array.isArray(tradeData.tradeLegs)) {
                     console.log(`Found ${tradeData.tradeLegs.length} trade legs in the response`);
-                    tradeData.tradeLegs = tradeData.tradeLegs.map((leg: any) => {
+                    tradeData.tradeLegs = tradeData.tradeLegs.map((leg: TradeLeg) => {
                         // If any date fields exist in legs, convert here as well
                         // Ensure leg data is properly structured for the UI
                         console.log("Processing leg:", leg);

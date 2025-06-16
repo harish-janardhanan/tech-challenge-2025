@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,17 +32,17 @@ public class CostCenterController {
     public List<CostCenterDTO> getAllCostCenters() {
         logger.info("Fetching all cost centers");
         return costCenterService.getAllCostCenters().stream()
-            .map(costCenterMapper::toDto)
-            .toList();
+                .map(costCenterMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CostCenterDTO> getCostCenterById(@PathVariable Long id) {
         logger.debug("Fetching cost center by id: {}", id);
         return costCenterService.getCostCenterById(id)
-            .map(costCenterMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(costCenterMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -68,7 +69,7 @@ public class CostCenterController {
     @GetMapping("/values")
     public List<String> getAllCostCenterNames() {
         return costCenterService.getAllCostCenters().stream()
-            .map(CostCenter::getCostCenterName)
-            .toList();
+                .map(CostCenter::getCostCenterName)
+                .toList();
     }
 }

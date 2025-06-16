@@ -1,28 +1,21 @@
 import React, {useState} from "react";
 import AGGridTable from "./../components/AGGridTable";
-import {AllCommunityModule, ModuleRegistry} from 'ag-grid-community';
-import {fetchAllUsers, createUser, updateUser} from "../utils/api";
+import {AllCommunityModule, ModuleRegistry, SelectionChangedEvent} from 'ag-grid-community';
+import {fetchAllUsers} from "../utils/api";
 import Snackbar from "./../components/Snackbar";
 import LoadingSpinner from "./../components/LoadingSpinner";
 import Button from "./../components/Button";
 import {getColDefFromResult, getRowDataFromData} from "../utils/agGridUtils";
 import axios from "axios";
 import {observer} from "mobx-react-lite";
-import {SingleUserModal} from "./SingleUserModal";
 import {ApplicationUser} from "../utils/ApplicationUser";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-interface AllUserViewProps {
-    setView: (view: string, user?: any) => void;
-    selectedUser: any;
-    setSelectedUser: (user: any) => void;
-}
 
-export const AllUserView: React.FC<AllUserViewProps> = observer(() => {
+export const AllUserView: React.FC = observer(() => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMsg, setSnackbarMsg] = useState("");
-    const [snackbarType, setSnackbarType] = useState<'success' | 'error'>("success");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -60,40 +53,8 @@ export const AllUserView: React.FC<AllUserViewProps> = observer(() => {
             });
     };
 
-    const handleSaveUser = async () => {
-        if (!currentUser) return;
-        // Only send fields expected by backend (exclude id, version, lastModifiedTimestamp)
-        const userToSend = {
-            firstName: currentUser.firstName,
-            lastName: currentUser.lastName,
-            loginId: currentUser.loginId,
-            password: currentUser.password,
-            active: currentUser.active,
-            userProfile: currentUser.userProfile,
-        };
-        const isEdit = !!currentUser.id;
-        try {
-            if (isEdit) {
-                await updateUser(currentUser.id, userToSend);
-                setSnackbarMsg("User updated successfully.");
-            } else {
-                await createUser(userToSend);
-                setSnackbarMsg("User saved successfully.");
-            }
-            setSnackbarType("success");
-            setSnackbarOpen(true);
-            setIsDetailOpen(false);
-            onLoadUsers();
-            setCurrentUser(null)
-        } catch (err: any) {
-            setSnackbarMsg("Failed to save user: " + (err?.message || 'Unknown error'));
-            setSnackbarType("error");
-            setSnackbarOpen(true);
-        }
-    };
-
     // Handler to open modal and load selected user from grid
-    const handleSelectionChanged = (event: any) => {
+    const handleSelectionChanged = (event: SelectionChangedEvent) => {
         const selectedRows = event.api.getSelectedRows();
         if (selectedRows.length > 0) {
             setCurrentUser(selectedRows[0]);
@@ -137,12 +98,6 @@ export const AllUserView: React.FC<AllUserViewProps> = observer(() => {
                 <Button variant={"primary"} type={"submit"} size={"sm"}
                         className={"w-30  mt-2 !bg-amber-500 hover:!bg-amber-700"}
                         onClick={handleEditUser} disabled={!currentUser}>Edit User</Button></div>
-            <SingleUserModal isOpen={isDetailOpen}
-                             user={currentUser}
-                             setUser={setCurrentUser}
-                             onClose={() => { setIsDetailOpen(false); setCurrentUser(null); }}
-                             onClickSave={handleSaveUser}
-            />
         </div>
 
     );

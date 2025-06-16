@@ -1,50 +1,49 @@
-import { makeAutoObservable } from 'mobx';
+import {makeAutoObservable} from 'mobx';
 import {ApplicationUser} from "../utils/ApplicationUser";
-import error from "eslint-plugin-react/lib/util/error";
 
 class UserStore {
-  private _user: ApplicationUser | null = null;
-  private _authorization:string| undefined = undefined;
-  private _isLoading = false;
-  private _error:string | null = null;
+    private _user: ApplicationUser | null = null;
+    private _authorization: string | undefined = undefined;
+    private _isLoading = false;
+    private _error: string | null = null;
 
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+    constructor() {
+        makeAutoObservable(this);
+    }
 
 
-  get user(): ApplicationUser | null {
-    return this._user;
-  }
+    get user(): ApplicationUser | null {
+        return this._user;
+    }
 
-  set user(value: ApplicationUser | null) {
-    this._user = value;
-  }
+    set user(value: ApplicationUser | null) {
+        this._user = value;
+    }
 
-  get authorization(): string | undefined {
-    return this._authorization;
-  }
+    get authorization(): string | undefined {
+        return this._authorization;
+    }
 
-  set authorization(value: string | undefined) {
-    this._authorization = value;
-  }
+    set authorization(value: string | undefined) {
+        this._authorization = value;
+    }
 
-  get isLoading(): boolean {
-    return this._isLoading;
-  }
+    get isLoading(): boolean {
+        return this._isLoading;
+    }
 
-  set isLoading(value: boolean) {
-    this._isLoading = value;
-  }
+    set isLoading(value: boolean) {
+        this._isLoading = value;
+    }
 
-  get error(): string | null {
-    return this._error;
-  }
+    get error(): string | null {
+        return this._error;
+    }
 
-  set error(value: string | null) {
-    this._error = value;
-  }
+    set error(value: string | null) {
+        this._error = value;
+    }
 
 }
 

@@ -4,10 +4,11 @@ import AGGridTable from "../components/AGGridTable";
 import {fetchTrades} from "../utils/api";
 import {getColDefFromResult, getRowDataFromData} from "../utils/agGridUtils";
 import { useQuery } from '@tanstack/react-query';
+import {Trade} from "../utils/tradeTypes";
 
 
 export const TradeBlotterModal: React.FC = observer(() => {
-    const [trades, setTrades] = React.useState<any[]>([]);
+    const [trades, setTrades] = React.useState<Trade[]>([]);
 
     const {data, isSuccess} = useQuery({
         queryKey: ['trades'],

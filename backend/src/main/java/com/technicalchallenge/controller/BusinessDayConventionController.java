@@ -63,7 +63,7 @@ public class BusinessDayConventionController {
     public List<String> getAllBusinessDayConventionValues() {
         logger.info("Fetching all business day convention values");
         return businessDayConventionService.findAll().stream()
-            .map(BusinessDayConvention::getBdc)
-            .toList();
+                .map(BusinessDayConvention::getBdc)
+                .toList();
     }
 }

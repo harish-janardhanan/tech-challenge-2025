@@ -1,5 +1,5 @@
-import { Trade, TradeLeg } from "./tradeTypes";
-import { getToday, getOneYearFromToday, formatDateForBackend } from "./dateUtils";
+import {Trade} from "./tradeTypes";
+import {formatDateForBackend, getOneYearFromToday, getToday} from "./dateUtils";
 
 /**
  * Creates a default trade object with basic values
@@ -62,7 +62,9 @@ export const formatTradeForBackend = (trade: Trade): Record<string, unknown> => 
         executionDate: formatDateForBackend(trade.executionDate),
         lastTouchTimestamp: formatDateForBackend(trade.lastTouchTimestamp),
         validityStartDate: formatDateForBackend(trade.validityStartDate),
-        validityEndDate: formatDateForBackend((trade as unknown as { validityEndDate?: string | Date }).validityEndDate),
+        validityEndDate: formatDateForBackend((trade as unknown as {
+            validityEndDate?: string | Date
+        }).validityEndDate),
         tradeLegs: trade.tradeLegs.map(leg => ({
             ...leg,
         })),

@@ -242,8 +242,8 @@ class StaticStore {
             this.isLoading = false;
             console.log(this.counterpartyValues)
             return this.counterpartyValues;
-        } catch (e: any) {
-            this.error = e.message || 'Failed to fetch static values';
+        } catch (e) {
+            this.error =  'Failed to fetch static values ' + e;
             this.isLoading = false;
         }
     }
@@ -254,34 +254,11 @@ class StaticStore {
             const response = await api.get('/userProfiles');
             this._userTypeCache = response.data;
         } catch (error) {
-            this._error = 'Failed to fetch user profiles';
+            this._error = 'Failed to fetch user profiles' + error;
         } finally {
             this._isLoading = false;
         }
     }
-}
-
-export function useUserTypesQuery() {
-    const query = useQuery({
-        queryKey: ['userProfiles'],
-        queryFn: async () => {
-            const res = await api.get("/userProfiles");
-            return res.data;
-        },
-        refetchInterval: 30000,
-    });
-
-    React.useEffect(() => {
-        if (query.data) {
-            staticStore.userTypeCache = query.data;
-            staticStore.error = null;
-        }
-        if (query.error) {
-            staticStore.error = (query.error as any).message || 'Unknown error';
-        }
-    }, [query.data, query.error]);
-
-    return query;
 }
 
 

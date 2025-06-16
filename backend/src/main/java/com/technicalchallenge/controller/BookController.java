@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -24,24 +25,20 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
-    @Autowired
-    private BookMapper bookMapper;
+
 
     @GetMapping
-    public List<BookDTO> getAllBooks() {
+    public ResponseEntity<List<BookDTO>> getAllBooks() {
         logger.info("Fetching all books");
-        return bookService.getAllBooks().stream()
-            .map(bookMapper::toDto)
-            .toList();
+        return ResponseEntity.ok().body(bookService.getAllBooks());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) {
         logger.debug("Fetching book by id: {}", id);
         return bookService.getBookById(id)
-            .map(bookMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -53,9 +50,8 @@ public class BookController {
         if (bookDTO.getCostCenterName() == null) {
             return ResponseEntity.badRequest().body("Cost center is required");
         }
-        var entity = bookMapper.toEntity(bookDTO);
-        var saved = bookService.saveBook(entity, bookDTO);
-        return ResponseEntity.ok(bookMapper.toDto(saved));
+        var saved = bookService.saveBook(bookDTO);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
@@ -70,7 +66,7 @@ public class BookController {
     @GetMapping("/values")
     public List<String> getAllBookNames() {
         return bookService.getAllBooks().stream()
-            .map(Book::getBookName)
-            .toList();
+                .map(BookDTO::getBookName)
+                .toList();
     }
 }

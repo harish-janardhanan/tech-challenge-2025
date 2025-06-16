@@ -28,8 +28,8 @@ public class HolidayCalendarController {
     public List<HolidayCalendarDTO> getAll() {
         logger.info("Fetching all holiday calendars");
         return holidayCalendarService.findAll().stream()
-            .map(holidayCalendarMapper::toDto)
-            .toList();
+                .map(holidayCalendarMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class HolidayCalendarController {
     public List<String> getAllHolidayCalendarValues() {
         logger.info("Fetching all holiday calendar values");
         return holidayCalendarService.findAll().stream()
-            .map(HolidayCalendar::getHolidayCalendar)
-            .toList();
+                .map(HolidayCalendar::getHolidayCalendar)
+                .toList();
     }
 }

@@ -28,8 +28,8 @@ public class TradeTypeController {
     public List<TradeTypeDTO> getAll() {
         logger.info("Fetching all trade types");
         return tradeTypeService.findAll().stream()
-            .map(tradeTypeMapper::toDto)
-            .toList();
+                .map(tradeTypeMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class TradeTypeController {
     public List<String> getAllTradeTypeValues() {
         logger.info("Fetching all trade type values");
         return tradeTypeService.findAll().stream()
-            .map(TradeType::getTradeType)
-            .toList();
+                .map(TradeType::getTradeType)
+                .toList();
     }
 }

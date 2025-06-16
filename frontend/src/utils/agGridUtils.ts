@@ -26,7 +26,7 @@ export function getColDefFromResult(data: unknown): unknown[] {
 
 export function getRowDataFromData(data: unknown): unknown[] {
     if (!data) return [];
-    let arr = Array.isArray(data) ? data : typeof data === 'object' ? [data] : [];
+    const arr = Array.isArray(data) ? data : typeof data === 'object' ? [data] : [];
     return arr.map((row: any) => {
         let activeValue = row.active;
         if (typeof activeValue !== 'boolean') {

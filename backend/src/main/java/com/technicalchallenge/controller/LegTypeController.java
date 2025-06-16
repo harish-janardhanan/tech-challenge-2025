@@ -28,8 +28,8 @@ public class LegTypeController {
     public List<LegTypeDTO> getAll() {
         logger.info("Fetching all leg types");
         return legTypeService.findAll().stream()
-            .map(legTypeMapper::toDto)
-            .toList();
+                .map(legTypeMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class LegTypeController {
     public List<String> getAllLegTypeValues() {
         logger.info("Fetching all leg type values");
         return legTypeService.findAll().stream()
-            .map(LegType::getType)
-            .toList();
+                .map(LegType::getType)
+                .toList();
     }
 }

@@ -28,8 +28,8 @@ public class TradeStatusController {
     public List<TradeStatusDTO> getAll() {
         logger.info("Fetching all trade statuses");
         return tradeStatusService.findAll().stream()
-            .map(tradeStatusMapper::toDto)
-            .toList();
+                .map(tradeStatusMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class TradeStatusController {
     public List<String> getAllTradeStatusValues() {
         logger.info("Fetching all trade status values");
         return tradeStatusService.findAll().stream()
-            .map(TradeStatus::getTradeStatus)
-            .toList();
+                .map(TradeStatus::getTradeStatus)
+                .toList();
     }
 }

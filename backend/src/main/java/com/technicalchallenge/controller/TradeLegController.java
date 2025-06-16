@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,17 +32,17 @@ public class TradeLegController {
     public List<TradeLegDTO> getAllTradeLegs() {
         logger.info("Fetching all trade legs");
         return tradeLegService.getAllTradeLegs().stream()
-            .map(tradeLegMapper::toDto)
-            .toList();
+                .map(tradeLegMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TradeLegDTO> getTradeLegById(@PathVariable(name = "id") Long id) {
         logger.debug("Fetching trade leg by id: {}", id);
         return tradeLegService.getTradeLegById(id)
-            .map(tradeLegMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(tradeLegMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

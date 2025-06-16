@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,17 +32,17 @@ public class DeskController {
     public List<DeskDTO> getAllDesks() {
         logger.info("Fetching all desks");
         return deskService.getAllDesks().stream()
-            .map(deskMapper::toDto)
-            .toList();
+                .map(deskMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DeskDTO> getDeskById(@PathVariable Long id) {
         logger.debug("Fetching desk by id: {}", id);
         return deskService.getDeskById(id)
-            .map(deskMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(deskMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -65,7 +66,7 @@ public class DeskController {
     @GetMapping("/values")
     public List<String> getAllDeskNames() {
         return deskService.getAllDesks().stream()
-            .map(Desk::getDeskName)
-            .toList();
+                .map(Desk::getDeskName)
+                .toList();
     }
 }

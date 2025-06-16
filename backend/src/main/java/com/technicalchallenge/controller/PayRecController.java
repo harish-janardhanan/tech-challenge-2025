@@ -28,8 +28,8 @@ public class PayRecController {
     public List<PayRecDTO> getAll() {
         logger.info("Fetching all pay recs");
         return payRecService.findAll().stream()
-            .map(payRecMapper::toDto)
-            .toList();
+                .map(payRecMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class PayRecController {
     public List<String> getAllPayRecValues() {
         logger.info("Fetching all pay/receive values");
         return payRecService.findAll().stream()
-            .map(PayRec::getPayRec)
-            .toList();
+                .map(PayRec::getPayRec)
+                .toList();
     }
 }

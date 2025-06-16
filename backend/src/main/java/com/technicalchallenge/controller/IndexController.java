@@ -28,8 +28,8 @@ public class IndexController {
     public List<IndexDTO> getAll() {
         logger.info("Fetching all indexes");
         return indexService.findAll().stream()
-            .map(indexMapper::toDto)
-            .toList();
+                .map(indexMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,7 @@ public class IndexController {
     public List<String> getAllIndexValues() {
         logger.info("Fetching all index values");
         return indexService.findAll().stream()
-            .map(Index::getIndex)
-            .toList();
+                .map(Index::getIndex)
+                .toList();
     }
 }

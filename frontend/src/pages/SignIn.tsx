@@ -44,7 +44,7 @@ const SignIn = () => {
                 setIsSnackBarOpen(true);
             }
         } catch (error) {
-            setLoginError("An error occurred during sign in.");
+            setLoginError("An error occurred during sign in :" + error);
             setIsSnackBarOpen(true);
         } finally {
             setTimeout(() => {

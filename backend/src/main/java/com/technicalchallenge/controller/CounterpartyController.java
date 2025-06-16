@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,16 +26,16 @@ public class CounterpartyController {
     @GetMapping
     public List<CounterpartyDTO> getAllCounterparties() {
         return counterpartyService.getAllCounterparties().stream()
-            .map(counterpartyMapper::toDto)
-            .toList();
+                .map(counterpartyMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CounterpartyDTO> getCounterpartyById(@PathVariable(name = "id") Long id) {
         return counterpartyService.getCounterpartyById(id)
-            .map(counterpartyMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(counterpartyMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -56,7 +57,7 @@ public class CounterpartyController {
     @GetMapping("/values")
     public List<String> getAllCounterpartyNames() {
         return counterpartyService.getAllCounterparties().stream()
-            .map(Counterparty::getName)
-            .toList();
+                .map(Counterparty::getName)
+                .toList();
     }
 }

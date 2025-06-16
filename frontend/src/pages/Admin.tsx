@@ -12,7 +12,7 @@ const Admin: React.FC = () => {
         <Layout>
             {view === 'default' && <HomeContent/>}
             {view === 'user-actions' && <UserActionsModal/> /* User Admin modal removed from here */}
-            {view === 'user-all' && <AllUserView />}
+            {view === 'user-all' && <AllUserView  />}
         </Layout>
     );
 };

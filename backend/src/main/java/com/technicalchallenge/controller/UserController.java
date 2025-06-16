@@ -33,28 +33,29 @@ public class UserController {
     public List<UserDTO> getAllUsers() {
         logger.info("Fetching all users");
         return applicationUserService.getAllUsers().stream()
-            .map(applicationUserMapper::toDto)
-            .toList();
+                .map(applicationUserMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/loginId/{loginId}")
     public ResponseEntity<UserDTO> getUserByLoginId(@PathVariable("loginId") String loginId) {
         logger.debug("Fetching user by loginId: {}", loginId);
         Optional<ApplicationUser> user = applicationUserService.getAllUsers().stream()
-            .filter(u -> u.getLoginId().equals(loginId))
-            .findFirst();
+                .filter(u -> u.getLoginId().equals(loginId))
+                .findFirst();
 
         return user.map(applicationUserMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         logger.debug("Fetching user by id: {}", id);
         return applicationUserService.getUserById(id)
-            .map(applicationUserMapper::toDto)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(applicationUserMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

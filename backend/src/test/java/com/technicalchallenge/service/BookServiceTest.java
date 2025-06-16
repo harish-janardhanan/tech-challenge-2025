@@ -32,7 +32,7 @@ public class BookServiceTest {
         Book book = new Book();
         book.setId(1L);
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        Optional<Book> found = bookService.getBookById(1L);
+        Optional<BookDTO> found = bookService.getBookById(1L);
         assertTrue(found.isPresent());
         assertEquals(1L, found.get().getId());
     }
@@ -64,7 +64,7 @@ public class BookServiceTest {
     @Test
     void testFindBookByNonExistentId() {
         when(bookRepository.findById(99L)).thenReturn(Optional.empty());
-        Optional<Book> found = bookService.getBookById(99L);
+        Optional<BookDTO> found = bookService.getBookById(99L);
         assertFalse(found.isPresent());
     }
 
