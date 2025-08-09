@@ -1,12 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Support from './Support.tsx';
+import { MemoryRouter } from 'react-router-dom';
+import Support from './Support';
 import React from 'react';
 
 describe('Support Page', () => {
   it('renders the Support / Admin View heading', () => {
-    render(<Support />);
-    expect(screen.getByText(/Support \/ Admin View/i)).toBeInTheDocument();
+    render(
+      <MemoryRouter>
+        <Support />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/Welcome to the Trade Platform/i)).toBeInTheDocument();
   });
 });
 

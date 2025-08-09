@@ -18,6 +18,8 @@ export const fetchAllUsers = async () => {
 
 export const createUser = (user) => api.post('/users', user);
 
+export const fetchUserProfiles = () => api.get('/userProfiles');
+
 export const updateUser = (id, user) => api.put(`/users/${id}`, user);
 
 export const authenticate = (user: string, pass: string) => {
