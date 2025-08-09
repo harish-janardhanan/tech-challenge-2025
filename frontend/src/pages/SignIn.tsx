@@ -8,6 +8,7 @@ import {authenticate,getUserByLogin} from "../utils/api";
 import Snackbar from "../components/Snackbar";
 import userStore from "../stores/userStore";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SignUp from './SignUp';
 
 const SignIn = () => {
     const [email, setEmail] = useState<string>('');
@@ -16,6 +17,7 @@ const SignIn = () => {
     const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
     const [loginError, setLoginError] = React.useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
     const handleSignIn = async (e: React.FormEvent) => {
         setLoading(true)
@@ -93,8 +95,12 @@ const SignIn = () => {
                         Sign In
                     </Button>
                 </form>
+                <Button type="button" variant="secondary" size="md" onClick={() => setIsSignUpOpen(true)}>
+                    Sign Up
+                </Button>
             </div>
             }
+                <SignUp isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} />
                 <Snackbar open={isSnackBarOpen} message={loginError} type={loginError !== "" ? 'error' : "success"} onClose={() => setIsSnackBarOpen(false)}/>
         </div>
     );
