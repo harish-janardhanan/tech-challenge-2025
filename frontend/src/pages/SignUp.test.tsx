@@ -14,6 +14,7 @@ describe('SignUp Modal', () => {
     render(<SignUp isOpen={true} onClose={() => {}} />);
     expect(await screen.findByRole('heading', { name: /Sign Up/i })).toBeInTheDocument();
     expect(await screen.findByPlaceholderText(/First Name/i)).toBeInTheDocument();
+
   });
 });
 
