@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/react';
 import ProtectedRoute from './ProtectedRoute';
-import '@testing-library/jest-dom';
 import React from 'react';
 import { renderWithRouter } from '../utils/test-utils';
 
