@@ -48,6 +48,7 @@ jobs:
     - name: Install frontend dependencies
       run: |
         cd frontend
+        echo "packages: ['.']" > pnpm-workspace.yaml
         pnpm install --no-frozen-lockfile
     - name: Run frontend tests
       run: |
