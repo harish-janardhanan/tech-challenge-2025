@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import SignUp from './SignUp';
 import React from 'react';
+import { renderWithQueryClient } from '../utils/test-utils';
 
 vi.mock('../utils/api', () => ({
   fetchUserProfiles: vi.fn().mockResolvedValue({ data: [] }),
@@ -11,9 +11,9 @@ vi.mock('../utils/api', () => ({
 
 describe('SignUp Modal', () => {
   it('renders form fields when open', () => {
-    render(<SignUp isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
+    renderWithQueryClient(<SignUp isOpen={true} onClose={() => {}} />);
+    // Use heading role to be more specific
+    expect(screen.getByRole('heading', { name: /Sign Up/i })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/First Name/i)).toBeInTheDocument();
   });
 });
-

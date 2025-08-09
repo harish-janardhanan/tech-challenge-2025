@@ -1,20 +1,18 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import ProtectedRoute from './ProtectedRoute';
+import '@testing-library/jest-dom';
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../utils/test-utils';
 
 describe('ProtectedRoute Component', () => {
   it('renders children when allowed', () => {
-    const { getByText } = render(
-      <MemoryRouter>
-        <ProtectedRoute isAllowed={true}>
-          <div>Allowed Content</div>
-        </ProtectedRoute>
-      </MemoryRouter>
+    renderWithRouter(
+      <ProtectedRoute isAllowed={true} redirectPath={"/unauthorized"}>
+        <div>Allowed Content</div>
+      </ProtectedRoute>
     );
-    expect(getByText('Allowed Content')).toBeInTheDocument();
+
+    expect(screen.getByText('Allowed Content')).toBeInTheDocument();
   });
 });
-

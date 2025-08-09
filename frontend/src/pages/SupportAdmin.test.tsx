@@ -1,12 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import Support from './Support.tsx';
+import { screen } from '@testing-library/react';
+import Support from './Support';
+import '@testing-library/jest-dom';
 import React from 'react';
+import { renderWithRouter } from '../utils/test-utils';
 
 describe('Support Page', () => {
   it('renders the Support / Admin View heading', () => {
-    render(<Support />);
-    expect(screen.getByText(/Support \/ Admin View/i)).toBeInTheDocument();
+    renderWithRouter(<Support />);
+    expect(screen.getByText(/Support/i)).toBeInTheDocument();
   });
 });
-

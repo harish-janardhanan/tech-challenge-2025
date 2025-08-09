@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Java CI with Maven and Frontend Vite
 
 on:
   push:
@@ -15,11 +15,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  backend:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Maven build
+    - name: Setup Java
       uses: actions/setup-java@v4
       with:
         java-version: '21'
@@ -30,3 +30,40 @@ jobs:
         cd backend
         mvn -U clean install --no-transfer-progress --batch-mode --show-version --errors --fail-at-end -Dmaven.test.skip=true
 
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+    - uses: actions/cache@v4
+      name: Setup pnpm cache
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        pnpm install
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        pnpm test run
+    - name: Build frontend
+      run: |
+        cd frontend
+        pnpm build

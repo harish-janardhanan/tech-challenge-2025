@@ -1,13 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import MiddleOffice from './MiddleOffice';
 import React from 'react';
+import { renderWithRouter } from '../utils/test-utils';
 
 describe('MiddleOffice Page', () => {
-  it('renders the Middle Office View heading', () => {
-    render(<MiddleOffice />);
-    expect(screen.getByText(/Middle Office View/i)).toBeInTheDocument();
+  it('renders the welcome heading', () => {
+    renderWithRouter(<MiddleOffice />);
+    expect(screen.getByText(/Welcome to the Trade Platform/i)).toBeInTheDocument();
   });
 });
-

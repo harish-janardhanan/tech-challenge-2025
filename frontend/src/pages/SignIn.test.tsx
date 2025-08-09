@@ -1,13 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import SignIn from './SignIn';
 import React from 'react';
+import { renderWithRouter } from '../utils/test-utils';
 
 describe('SignIn Page', () => {
   it('renders the Sign In heading', () => {
-    render(<SignIn />);
+    renderWithRouter(<SignIn />);
     expect(screen.getByText(/Sign In/i)).toBeInTheDocument();
   });
 });
-
