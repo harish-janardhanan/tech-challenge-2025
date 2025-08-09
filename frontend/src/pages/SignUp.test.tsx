@@ -10,10 +10,11 @@ vi.mock('../utils/api', () => ({
 }));
 
 describe('SignUp Modal', () => {
-  it('renders form fields when open', () => {
+  it('renders form fields when open', async () => {
     render(<SignUp isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/First Name/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /Sign Up/i })).toBeInTheDocument();
+    expect(await screen.findByPlaceholderText(/First Name/i)).toBeInTheDocument();
+
   });
 });
 
